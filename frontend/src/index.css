@@ -155,11 +155,6 @@ a:hover {
   max-width: 100%;
 }
 
-.add-time-slots {
-  position: fixed;
-  top: 129px;
-  left: 16.67%;
-}
 
 @media (max-width: 1024px) {
   .add-time-slots {
@@ -180,9 +175,7 @@ a:hover {
     display: none;
   }
 
-  .add-time-slots {
-    left: 0%;
-  }
+ 
 }
 
 .add-project-link {
@@ -236,8 +229,8 @@ a:hover {
   background-color: darkgreen;
 }
 
-.week-summary {
+.wrapper{
   position: fixed;
-  top: 290px;
   left: 16.67%;
+  top: 140px;
 }

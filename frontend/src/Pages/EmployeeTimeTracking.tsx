@@ -19,7 +19,6 @@ function EmployeeTimeTracking() {
 						<Container className="wrapper">
 							<AddTimeSlots />
 							<WeekSummary />
-
 							<AllInstanceSummary />
 						</Container>
 					</Col>

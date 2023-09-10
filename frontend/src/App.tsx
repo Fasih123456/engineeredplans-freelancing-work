@@ -7,18 +7,24 @@ import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
 
 function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<EmployeeTimeTracking />} />
-          <Route path="/employee-management" element={<EmployeeManagement />} />
-          <Route path="/employee-time-tracking" element={<EmployeeTimeTracking />} />
-          <Route path="/project-management" element={<ProjectManagement />} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  );
+	return (
+		<>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<EmployeeTimeTracking />} />
+					<Route
+						path="/employee-management"
+						element={<EmployeeManagement />}
+					/>
+					<Route
+						path="/employee-time-tracking"
+						element={<EmployeeTimeTracking />}
+					/>
+					<Route path="/projects" element={<ProjectManagement />} />
+				</Routes>
+			</BrowserRouter>
+		</>
+	);
 }
 
 export default App;

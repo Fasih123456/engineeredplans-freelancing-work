@@ -22,6 +22,7 @@ connect(); //This connects the database to the server
 
 app.use("/employees", require("./routes/employee"));
 app.use("/projects", require("./routes/project"));
+app.use("/tasks", require("./routes/task"));
 
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`);

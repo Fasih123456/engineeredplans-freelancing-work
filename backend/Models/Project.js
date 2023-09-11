@@ -10,7 +10,7 @@ dataTypes = {
 
 class Project {
 	constructor(projectId = null, project_name = null, employeeIds = null) {
-		this.projectId = projectId || crypto.randomBytes(4).toString("hex");
+		this.projectId = projectId || crypto.randomBytes(2).toString("hex");
 		this.project_name = project_name;
 		this.employeeIds = employeeIds || [];
 	}

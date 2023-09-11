@@ -1,18 +1,38 @@
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.PORT || 3001;
 const app = express();
 
+const PORT = process.env.PORT || 3001;
+
+const connect = require("./Util/db");
+const json = require("body-parser").json;
+const urlencoded = require("body-parser").urlencoded;
+
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+	cors({
+		origin: "*",
+		credentials: true,
+	})
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
+
+app.post("/post_name", async (req, res) => {
+	const { name } = req.body;
+	console.log(name);
+});
+
+app.get("/", cors(), async (req, res) => {
+	try {
+		await connect();
+		res.send("Hello World!");
+	} catch (error) {
+		console.error(`Error connecting to database: ${error}`);
+		res.status(500).send("Internal Server Error");
+	}
+});
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+	console.log(`Server listening on port ${PORT}`);
 });

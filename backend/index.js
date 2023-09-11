@@ -18,10 +18,7 @@ app.use(
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-app.post("/post_name", async (req, res) => {
-	const { name } = req.body;
-	console.log(name);
-});
+connect(); //This connects the database to the server
 
 app.get("/", cors(), async (req, res) => {
 	try {

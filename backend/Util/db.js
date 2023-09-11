@@ -28,14 +28,3 @@ async function connect() {
 }
 
 module.exports = connect;
-
-/*
-Driver={ODBC Driver 18 for SQL Server}
-;Server=tcp:coresysmologic.database.windows.net,
-1433;
-Database=engineeredplans-employeeportal;
-Uid={your_user_name};Pwd={your_password_here};
-Encrypt=yes;TrustServerCertificate=no;
-Connection Timeout=30;
-Authentication=ActiveDirectoryPassword
-	*/

@@ -19,12 +19,24 @@ async function connect() {
 		const connection = await sql.connect(config);
 		console.log(connection._connected);
 
-		const request = new sql.Request();
-
 		await connection.close();
 	} catch (err) {
 		console.error(err);
 	}
 }
 
-module.exports = connect;
+const pool = new sql.ConnectionPool(config);
+
+pool.connect((err) => {
+	if (err) {
+		console.error(err);
+	} else {
+		console.log("Connected to SQL Server");
+	}
+});
+
+module.exports = {
+	connect,
+	config,
+	pool,
+};

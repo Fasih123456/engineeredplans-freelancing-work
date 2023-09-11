@@ -1,51 +1,61 @@
 const sql = require("mssql");
 const crypto = require("crypto");
+const { connect, pool } = require("../Util/db");
+
+dataTypes = {
+	employeeId: sql.VarChar,
+	name: sql.VarChar,
+	password: sql.VarChar,
+};
 
 class Employee {
-	constructor(name, password) {
-		this.employeeId = crypto.randomBytes(4).toString("hex"); //TODO: will be a randomly generated number
+	constructor(employeeId = null, name = null, password = null) {
+		this.employeeId = employeeId;
 		this.name = name;
 		this.password = password;
 	}
 
 	async save() {
 		try {
-			const connection = await sql.connect(config);
-			const request = new sql.Request(connection);
-			await request.query(`
-                INSERT INTO employee (employeeId, name, password)
-                VALUES ('${this.employeeId}', '${this.name}', '${this.password}')
-            `);
-			await connection.close();
+			const request = pool.request();
+			await request
+				.input("employeeId", dataTypes.employeeId, this.employeeId)
+				.input("name", dataTypes.name, this.name)
+				.input("password", dataTypes.password, this.password).query(`
+          INSERT INTO employee (employeeId, name, password)
+          VALUES (@employeeId, @name, @password)
+        `);
+		} catch (err) {
+			console.error(err);
+		}
+	}
+	async update(currentEmployee, newName, newPassword) {
+		try {
+			const request = pool.request();
+			await request
+				.input("employeeId", dataTypes.employeeId, currentEmployee)
+				.input("name", dataTypes.name, newName)
+				.input("password", dataTypes.password, newPassword).query(`
+        UPDATE employee
+        SET name = @name, password = @password
+        WHERE employeeId = @employeeId
+      `);
+
+			console.log(currentEmployee, newName, newPassword);
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
-	async update() {
+	async delete(employeeId) {
+		console.log(employeeId);
 		try {
-			const connection = await sql.connect(config);
-			const request = new sql.Request(connection);
-			await request.query(`
-                UPDATE employee
-                SET name = '${this.name}', password = '${this.password}'
-                WHERE employeeId = '${this.employeeId}'
-            `);
-			await connection.close();
-		} catch (err) {
-			console.error(err);
-		}
-	}
-
-	async delete() {
-		try {
-			const connection = await sql.connect(config);
-			const request = new sql.Request(connection);
-			await request.query(`
-                DELETE FROM employee
-                WHERE employeeId = '${this.employeeId}'
-            `);
-			await connection.close();
+			const request = pool.request();
+			await request.input("employeeId", dataTypes.employeeId, employeeId)
+				.query(`
+        DELETE FROM employee
+        WHERE employeeId = @employeeId
+      `);
 		} catch (err) {
 			console.error(err);
 		}
@@ -53,16 +63,16 @@ class Employee {
 
 	static async findById(employeeId) {
 		try {
-			const connection = await sql.connect(config);
-			const request = new sql.Request(connection);
+			const request = pool.request();
+			request.input("employeeId", dataTypes.employeeId, employeeId);
 			const result = await request.query(`
-                SELECT * FROM employee
-                WHERE employeeId = '${employeeId}'
-            `);
-			await connection.close();
+      SELECT * FROM employee
+      WHERE employeeId = @employeeId
+    `);
+
 			if (result.recordset.length > 0) {
 				const { name, password } = result.recordset[0];
-				return new Employee(name, password);
+				return new Employee(employeeId, name, password);
 			} else {
 				return null;
 			}
@@ -74,12 +84,11 @@ class Employee {
 
 	static async findAll() {
 		try {
-			const connection = await sql.connect(config);
-			const request = new sql.Request(connection);
+			const request = pool.request();
 			const result = await request.query(`
-                SELECT * FROM employee
-            `);
-			await connection.close();
+      SELECT * FROM employee
+    `);
+
 			return result.recordset.map(
 				({ employeeId, name, password }) =>
 					new Employee(employeeId, name, password)
@@ -90,7 +99,5 @@ class Employee {
 		}
 	}
 }
-
-module.exports = Employee;
 
 module.exports = Employee;

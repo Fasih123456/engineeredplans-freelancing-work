@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const crypto = require("crypto");
-const { connect, pool } = require("../Util/db");
+const { pool } = require("../Util/db");
 
 dataTypes = {
 	employeeId: sql.VarChar,
@@ -9,8 +9,8 @@ dataTypes = {
 };
 
 class Employee {
-	constructor(employeeId = null, name = null, password = null) {
-		this.employeeId = employeeId;
+	constructor(name = null, password = null, employeeId = null) {
+		this.employeeId = employeeId || crypto.randomBytes(4).toString("hex");
 		this.name = name;
 		this.password = password;
 	}

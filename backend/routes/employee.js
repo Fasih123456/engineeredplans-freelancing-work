@@ -3,13 +3,13 @@ const router = express.Router();
 const Employee = require("../Models/Employee");
 
 // GET /employees
-router.get("/employees", async (req, res) => {
+router.get("/", async (req, res) => {
 	const employees = await Employee.findAll();
 	res.json(employees);
 });
 
 // GET /employees/:employeeId
-router.get("/employees/:employeeId", async (req, res) => {
+router.get("/:employeeId", async (req, res) => {
 	console.log(req.params.employeeId);
 	const employee = await Employee.findById(req.params.employeeId);
 	if (employee) {
@@ -20,7 +20,7 @@ router.get("/employees/:employeeId", async (req, res) => {
 });
 
 // POST /employees
-router.post("/employees", async (req, res) => {
+router.post("/", async (req, res) => {
 	const { name, password } = req.body;
 	const employee = new Employee(name, password);
 	await employee.save();
@@ -28,7 +28,7 @@ router.post("/employees", async (req, res) => {
 });
 
 // PUT /employees/:employeeId
-router.put("/employees/:employeeId", async (req, res) => {
+router.put("/:employeeId", async (req, res) => {
 	const employee = await Employee.findById(req.params.employeeId);
 	console.log(employee);
 	if (employee) {
@@ -46,7 +46,7 @@ router.put("/employees/:employeeId", async (req, res) => {
 });
 
 // DELETE /employees/:employeeId
-router.delete("/employees/:employeeId", async (req, res) => {
+router.delete("/:employeeId", async (req, res) => {
 	const employee = await Employee.findById(req.params.employeeId);
 	console.log(employee);
 	if (employee) {

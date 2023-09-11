@@ -20,7 +20,8 @@ app.use(urlencoded({ extended: true }));
 
 connect(); //This connects the database to the server
 
-app.use("/", require("./routes/employee"));
+app.use("/employees", require("./routes/employee"));
+app.use("/projects", require("./routes/project"));
 
 app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`);

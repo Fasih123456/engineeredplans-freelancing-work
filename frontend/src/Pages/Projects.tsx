@@ -1,9 +1,9 @@
-import Header from "../../Components/Header";
-import Menu from "../../Components/Menu";
+import Header from "../Components/Header";
+import Menu from "../Components/Menu";
 
 import { Row, Col, Container, Table } from "react-bootstrap";
 
-function ProjectManagement() {
+function Projects() {
 	const projects = [
 		{ name: "Project 1", hours: 10, employees: "Sabih, Mustafa" },
 		{ name: "Project 2", hours: 20, employees: "Idress, Fasih" },
@@ -19,14 +19,6 @@ function ProjectManagement() {
 					</Col>
 					<Col xs={10}>
 						<Container className="wrapper">
-							<Row>
-								<Col>
-									<button>Delete Project</button>
-								</Col>
-								<Col>
-									<button>Create Project</button>
-								</Col>
-							</Row>
 							<Row>
 								<Table>
 									<thead>
@@ -45,13 +37,7 @@ function ProjectManagement() {
 												<td>{project.employees}</td>
 												<td>
 													<button>
-														Assign Employees
-													</button>
-													<button>
-														Edit Information
-													</button>
-													<button>
-														View All Instances
+														View All Time
 													</button>
 												</td>
 											</tr>
@@ -67,4 +53,4 @@ function ProjectManagement() {
 	);
 }
 
-export default ProjectManagement;
+export default Projects;

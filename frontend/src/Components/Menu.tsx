@@ -27,7 +27,7 @@ function Menu() {
 				<Row className="each-menu-row">
 					<Col>
 						<i className="fa-solid fa-dollar-sign fa-icon"></i>{" "}
-						<a href="#" className="menu-link">
+						<a href="/projectmanage" className="menu-link">
 							Project Management
 						</a>
 					</Col>
@@ -35,7 +35,7 @@ function Menu() {
 				<Row className="each-menu-row">
 					<Col>
 						<i className="fa-solid fa-user fa-icon"></i>{" "}
-						<a href="#" className="menu-link">
+						<a href="/employeemanage" className="menu-link">
 							Employee Management
 						</a>
 					</Col>

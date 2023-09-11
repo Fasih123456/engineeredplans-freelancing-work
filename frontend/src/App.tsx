@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import EmployeeManagement from "./Pages/Admin/EmployeeManagement";
 import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
+import Projects from "./Pages/Projects";
 
 function App() {
 	return (
@@ -13,14 +14,14 @@ function App() {
 				<Routes>
 					<Route path="/" element={<EmployeeTimeTracking />} />
 					<Route
-						path="/employee-management"
-						element={<EmployeeManagement />}
+						path="/projectmanage"
+						element={<ProjectManagement />}
 					/>
 					<Route
-						path="/employee-time-tracking"
-						element={<EmployeeTimeTracking />}
+						path="/employeemanage"
+						element={<EmployeeManagement />}
 					/>
-					<Route path="/projects" element={<ProjectManagement />} />
+					<Route path="/projects" element={<Projects />} />
 				</Routes>
 			</BrowserRouter>
 		</>

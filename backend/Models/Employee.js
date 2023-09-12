@@ -13,7 +13,9 @@ class Employee {
 	constructor(name = null, password = null, employeeId = null) {
 		this.employeeId = employeeId || crypto.randomBytes(4).toString("hex");
 		this.name = name;
-		this.password = password;
+		this.password = password
+			? crypto.createHash("sha256").update(password).digest("hex")
+			: null;
 	}
 
 	async save() {

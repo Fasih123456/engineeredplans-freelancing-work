@@ -32,6 +32,31 @@ class Employee {
 			console.error(err);
 		}
 	}
+	static async checkVerification(name, password) {
+		try {
+			const request = pool.request();
+			request.input("name", sql.VarChar, name);
+			request.input("password", sql.VarChar, password);
+			const result = await request.query(`
+      SELECT * FROM employee
+      WHERE name = @name AND password = @password
+    `);
+			if (result.recordset.length === 0) {
+				return null;
+			}
+
+			const employee = result.recordset[0];
+			return new Employee(
+				employee.name,
+				employee.password,
+				employee.employeeId
+			);
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	}
+
 	async update(currentEmployee, newName, newPassword) {
 		try {
 			const request = pool.request();

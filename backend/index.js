@@ -8,6 +8,9 @@ const { connect } = require("./Util/db");
 const json = require("body-parser").json;
 const urlencoded = require("body-parser").urlencoded;
 
+//TODO: Implement user authentication using login
+//TODO: Use SHA256 to hash passwords
+
 app.use(
 	cors({
 		origin: "*",
@@ -19,6 +22,8 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 connect(); //This connects the database to the server
+
+app.use("/", require("./routes/login"));
 
 app.use("/employees", require("./routes/employee"));
 app.use("/projects", require("./routes/project"));

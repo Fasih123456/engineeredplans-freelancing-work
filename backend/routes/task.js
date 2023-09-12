@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Task = require("../Models/Task");
+const authenticate = require("../MiddleWare/JWTAuth");
 
 // GET /tasks
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
 	try {
 		const tasks = await Task.findAll();
 		res.json(tasks);
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET /tasks/:taskId
-router.get("/:taskId", async (req, res) => {
+router.get("/:taskId", authenticate, async (req, res) => {
 	try {
 		const task = await Task.findById(req.params.taskId);
 		if (task) {
@@ -29,7 +30,7 @@ router.get("/:taskId", async (req, res) => {
 });
 
 // POST /tasks
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
 	try {
 		const { employeeId, projectId } = req.body;
 		const task = new Task(null, employeeId, projectId);
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT /tasks/:taskId
-router.put("/:taskId", async (req, res) => {
+router.put("/:taskId", authenticate, async (req, res) => {
 	try {
 		const task = await Task.findById(req.params.taskId);
 		if (task) {
@@ -60,7 +61,7 @@ router.put("/:taskId", async (req, res) => {
 });
 
 // DELETE /tasks/:taskId
-router.delete("/:taskId", async (req, res) => {
+router.delete("/:taskId", authenticate, async (req, res) => {
 	try {
 		const task = await Task.findById(req.params.taskId);
 		if (task) {

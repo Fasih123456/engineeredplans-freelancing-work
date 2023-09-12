@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const Employee = require("../Models/Employee");
+const authenticate = require("../MiddleWare/JWTAuth");
 
 // GET /employees
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
 	const employees = await Employee.findAll();
 	res.json(employees);
 });
 
 // GET /employees/:employeeId
-router.get("/:employeeId", async (req, res) => {
+router.get("/:employeeId", authenticate, async (req, res) => {
 	console.log(req.params.employeeId);
 	const employee = await Employee.findById(req.params.employeeId);
 	if (employee) {
@@ -20,7 +21,7 @@ router.get("/:employeeId", async (req, res) => {
 });
 
 // POST /employees
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
 	const { name, password } = req.body;
 	const employee = new Employee(name, password);
 	await employee.save();
@@ -28,7 +29,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT /employees/:employeeId
-router.put("/:employeeId", async (req, res) => {
+router.put("/:employeeId", authenticate, async (req, res) => {
 	const employee = await Employee.findById(req.params.employeeId);
 	console.log(employee);
 	if (employee) {
@@ -46,7 +47,7 @@ router.put("/:employeeId", async (req, res) => {
 });
 
 // DELETE /employees/:employeeId
-router.delete("/:employeeId", async (req, res) => {
+router.delete("/:employeeId", authenticate, async (req, res) => {
 	const employee = await Employee.findById(req.params.employeeId);
 	console.log(employee);
 	if (employee) {

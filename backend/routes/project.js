@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Project = require("../Models/Project");
+const authenticate = require("../MiddleWare/JWTAuth");
 
 // GET /projects
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
 	try {
 		const projects = await Project.findAll();
 		res.json(projects);
@@ -14,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET /projects/:projectId
-router.get("/:projectId", async (req, res) => {
+router.get("/:projectId", authenticate, async (req, res) => {
 	try {
 		console.log(req.params.projectId);
 		const project = await Project.findById(req.params.projectId);
@@ -30,7 +31,7 @@ router.get("/:projectId", async (req, res) => {
 });
 
 // POST /projects
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
 	try {
 		const { project_name, employeeIds } = req.body;
 		const project = new Project(null, project_name, employeeIds);
@@ -43,7 +44,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT /projects/:projectId
-router.put("/:projectId", async (req, res) => {
+router.put("/:projectId", authenticate, async (req, res) => {
 	try {
 		const project = await Project.findById(req.params.projectId);
 		if (project) {
@@ -61,7 +62,7 @@ router.put("/:projectId", async (req, res) => {
 });
 
 // DELETE /projects/:projectId
-router.delete("/:projectId", async (req, res) => {
+router.delete("/:projectId", authenticate, async (req, res) => {
 	try {
 		const project = await Project.findById(req.params.projectId);
 		if (project) {

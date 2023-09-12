@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const crypto = require("crypto");
 const { pool } = require("../Util/db");
+const Permission = require("./Permission");
 
 dataTypes = {
 	employeeId: sql.VarChar,
@@ -25,6 +26,8 @@ class Employee {
           INSERT INTO employee (employeeId, name, password)
           VALUES (@employeeId, @name, @password)
         `);
+
+			Permission.save(null, this.employeeId, "user"); //all new employees are users by default
 		} catch (err) {
 			console.error(err);
 		}

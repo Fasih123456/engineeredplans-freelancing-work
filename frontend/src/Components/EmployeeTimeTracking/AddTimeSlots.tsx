@@ -1,9 +1,13 @@
 import { Col, Container, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import StopWatch from "./StopWatch";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddTimeSlots() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [startDate, setStartDate] = useState(new Date());
 
 	useEffect(() => {
 		function handleResize() {
@@ -43,8 +47,32 @@ function AddTimeSlots() {
 				</Col>
 			</Row>
 			<Row className="lower-add-time-slots">
-				{windowWidth >= 1024 && <Col xs={9}></Col>}
-				<Col className="add-time-start-section">
+				<Col xs={6} className="add-time-start-section">
+					<Row>
+						<Col>Start Time</Col>
+						<Col>End Time</Col>
+						<Col>
+							<button>Submit Entry</button>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={4}>
+							<DatePicker
+								selected={startDate}
+								onChange={(date) => setStartDate(date)}
+								showTimeSelect
+							/>
+						</Col>
+						<Col xs={4}>
+							<DatePicker
+								selected={startDate}
+								onChange={(date) => setStartDate(date)}
+								showTimeSelect
+							/>
+						</Col>
+					</Row>
+				</Col>
+				<Col xs={6} className="add-time-start-section">
 					<StopWatch />
 				</Col>
 			</Row>

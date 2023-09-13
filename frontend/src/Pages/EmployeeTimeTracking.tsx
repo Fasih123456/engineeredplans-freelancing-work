@@ -32,7 +32,6 @@ function EmployeeTimeTracking() {
 							<AddTimeSlots />
 							<WeekSummary />
 							<AllInstanceSummary />
-							<button onClick={postName}>test</button>
 						</Container>
 					</Col>
 				</Row>

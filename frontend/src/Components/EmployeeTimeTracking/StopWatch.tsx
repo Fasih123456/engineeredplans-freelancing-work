@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Timer from "./Timer";
 import ControlButtons from "./ControlButtons";
 
+import { Row, Col } from "react-bootstrap";
+
 function StopWatch() {
 	const [isActive, setIsActive] = useState(false);
 	const [isPaused, setIsPaused] = useState(true);
@@ -37,7 +39,7 @@ function StopWatch() {
 	};
 
 	return (
-		<div className="stop-watch">
+		<>
 			<Timer time={time} />
 			<ControlButtons
 				active={isActive}
@@ -46,7 +48,7 @@ function StopWatch() {
 				handlePauseResume={handlePauseResume}
 				handleReset={handleReset}
 			/>
-		</div>
+		</>
 	);
 }
 

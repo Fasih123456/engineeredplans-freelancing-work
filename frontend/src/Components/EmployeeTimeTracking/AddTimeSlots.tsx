@@ -1,13 +1,24 @@
 import { Col, Container, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import StopWatch from "./StopWatch";
-import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import ManualTimeEntry from "./ManualTimeEntry";
 
 function AddTimeSlots() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-	const [startDate, setStartDate] = useState(new Date());
+	const [showStopWatch, setShowStopWatch] = useState(true);
+	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
+
+	const handleClockIconClick = () => {
+		setShowStopWatch(!showStopWatch);
+		setShowManualTimeEntry(false);
+	};
+
+	const handleBarsIconClick = () => {
+		setShowManualTimeEntry(!showManualTimeEntry);
+		setShowStopWatch(false);
+	};
 
 	useEffect(() => {
 		function handleResize() {
@@ -21,12 +32,14 @@ function AddTimeSlots() {
 	return (
 		<Container className="add-time-slots">
 			<Row className="upper-add-time-slots">
-				<Col xs={9} className="time-slots-col">
-					<h1 className="add-time-slot-heading">
-						What are you hustling on?
-					</h1>
+				<Col xs={4} className="time-slots-col">
+					<input
+						className="add-time-slot-heading"
+						type="text"
+						placeholder="What are you hustling on?"
+					/>
 				</Col>
-				<Col xs={3} className="time-slots-col add-project-link-div">
+				<Col xs={4} className="time-slots-col add-project-link-div">
 					<Dropdown>
 						<Dropdown.Toggle id="project-dropdown">
 							Project
@@ -45,35 +58,23 @@ function AddTimeSlots() {
 						</Dropdown.Menu>
 					</Dropdown>
 				</Col>
-			</Row>
-			<Row className="lower-add-time-slots">
-				<Col xs={6} className="add-time-start-section">
+				<Col xs={4} className="time-slots-col">
 					<Row>
-						<Col>Start Time</Col>
-						<Col>End Time</Col>
-						<Col>
-							<button>Submit Entry</button>
+						<Col xs={11} className="time-slots-components-col">
+							{showStopWatch && <StopWatch />}
+							{showManualTimeEntry && <ManualTimeEntry />}
+						</Col>
+						<Col xs={1}>
+							<i
+								className="fa-solid fa-clock"
+								onClick={handleClockIconClick}
+							></i>
+							<i
+								className="fa-solid fa-bars"
+								onClick={handleBarsIconClick}
+							></i>
 						</Col>
 					</Row>
-					<Row>
-						<Col xs={4}>
-							<DatePicker
-								selected={startDate}
-								onChange={(date) => setStartDate(date)}
-								showTimeSelect
-							/>
-						</Col>
-						<Col xs={4}>
-							<DatePicker
-								selected={startDate}
-								onChange={(date) => setStartDate(date)}
-								showTimeSelect
-							/>
-						</Col>
-					</Row>
-				</Col>
-				<Col xs={6} className="add-time-start-section">
-					<StopWatch />
 				</Col>
 			</Row>
 		</Container>

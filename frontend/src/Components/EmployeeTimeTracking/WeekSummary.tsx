@@ -5,10 +5,10 @@ function WeekSummary() {
 		<>
 			<Container className="week-summary">
 				<Row>
-					<h1 className="week-summary-heading">This Week</h1>
-				</Row>
-				<Row>
-					<Col>
+					<Col className="week-summary-container">
+						<h1 className="week-summary-heading">This Week</h1>
+					</Col>
+					<Col className="week-summary-container week-summary-text-container">
 						<p className="week-summary-text">Week Total: </p>
 						<span className="time-display">00:00:00</span>
 					</Col>

@@ -20,6 +20,9 @@ export default function ControlButtons(props: ControlButtonsProps) {
 			<div className="btn btn-one" onClick={props.handlePauseResume}>
 				{props.isPaused ? "Resume" : "Pause"}
 			</div>
+			<div className="btn btn-three" onClick={props.handlePauseResume}>
+				End Task
+			</div>
 		</div>
 	);
 

@@ -1,24 +1,13 @@
+//Bootstrap imports
 import { Row, Col, Container } from "react-bootstrap";
 
-import axios from "axios";
-
+//Component Imports
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import AddTimeSlots from "../Components/EmployeeTimeTracking/AddTimeSlots";
-import WeekSummary from "../Components/EmployeeTimeTracking/WeekSummary";
 import AllInstanceSummary from "../Components/EmployeeTimeTracking/AllInstanceSummary";
 
 function EmployeeTimeTracking() {
-	async function postName() {
-		try {
-			axios.post("http://localhost:3001/post_name", {
-				name: "test",
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
 	return (
 		<>
 			<Header />
@@ -30,7 +19,6 @@ function EmployeeTimeTracking() {
 					<Col xs={10}>
 						<Container className="wrapper">
 							<AddTimeSlots />
-							<WeekSummary />
 							<AllInstanceSummary />
 						</Container>
 					</Col>

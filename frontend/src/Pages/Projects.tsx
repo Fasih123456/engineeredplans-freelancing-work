@@ -1,7 +1,9 @@
+//Bootstrap Imports
+import { Row, Col, Container, Table } from "react-bootstrap";
+
+//Component Imports
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
-
-import { Row, Col, Container, Table } from "react-bootstrap";
 
 function Projects() {
 	const projects = [

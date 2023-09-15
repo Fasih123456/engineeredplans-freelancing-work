@@ -23,6 +23,11 @@ a:hover {
 	color: #535bf2;
 }
 
+.navbar-dark .navbar-toggler-icon,
+.navbar-light .navbar-toggler-icon {
+	background-image: url("./assets/bars-solid.svg");
+}
+
 body {
 	margin: 0;
 	display: flex;
@@ -103,7 +108,6 @@ body {
 #header {
 	background-color: black;
 	color: white;
-	height: 125px;
 
 	font-size: 35px;
 }
@@ -348,7 +352,7 @@ a:hover {
 	width: 100%;
 	height: 100%;
 	border: 0px;
-	font-size: 26px;
+	font-size: 22px;
 	text-align: center;
 	transition: 0.25s ease-in-out;
 	background-color: #eff1f3;
@@ -442,9 +446,29 @@ input {
 	.wrapper {
 		max-width: 1180px;
 	}
+
+	.add-time-slot-heading {
+		font-size: 19px;
+	}
+
+	.summary-task-name {
+		font-size: 25px;
+	}
 }
 
 @media (max-width: 1024px) {
+	.add-time-slot-heading {
+		font-size: 17px;
+	}
+
+	.summary-task-name {
+		font-size: 21px;
+	}
+
+	input {
+		width: 100%;
+	}
+
 	.wrapper {
 		max-width: 800px;
 		margin-left: 20px;
@@ -460,11 +484,25 @@ input {
 		padding: 0px;
 		padding-right: 10px;
 	}
+
+	.date-picker-col {
+		padding-left: 0px;
+		padding-right: 0px;
+		text-align: left;
+	}
 }
 
 @media (max-width: 768px) {
+	#header a {
+		font-size: 15px;
+	}
+
+	.week-summary-text-container {
+		text-align: left;
+	}
+
 	input {
-		width: 70%;
+		width: 100%;
 	}
 
 	.wrapper {
@@ -477,7 +515,9 @@ input {
 	.date-picker-col {
 		padding-left: 0px;
 		padding-right: 0px;
-		text-align: left;
+		margin-left: 0px;
+		margin-right: 0px;
+		text-align: center;
 	}
 
 	.upper-add-time-slots {

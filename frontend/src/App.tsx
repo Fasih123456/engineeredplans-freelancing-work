@@ -22,6 +22,7 @@ function App() {
 						element={<EmployeeManagement />}
 					/>
 					<Route path="/projects" element={<Projects />} />
+					<Route path="/login" element={<Login />} />
 				</Routes>
 			</BrowserRouter>
 		</>

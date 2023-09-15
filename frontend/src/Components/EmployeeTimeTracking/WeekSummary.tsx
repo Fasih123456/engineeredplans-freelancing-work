@@ -4,7 +4,7 @@ function WeekSummary() {
 	return (
 		<>
 			<Container className="week-summary">
-				<Row>
+				<Row className="week-summary-row">
 					<Col className="week-summary-container">
 						<h1 className="week-summary-heading">This Week</h1>
 					</Col>

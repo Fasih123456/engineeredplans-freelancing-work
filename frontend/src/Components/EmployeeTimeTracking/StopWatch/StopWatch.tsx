@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Timer from "./Timer";
-import ControlButtons from "./ControlButtons";
+import ControlButtons from "../ControlButtons";
 
 import { Row, Col } from "react-bootstrap";
 

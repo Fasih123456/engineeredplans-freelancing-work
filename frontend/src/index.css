@@ -181,20 +181,15 @@ a:hover {
 .upper-add-time-slots {
 	background-color: #eff1f3;
 	border: 2px solid grey;
-	border-bottom: 0px;
+	min-height: 75px;
 	padding-bottom: 10px;
 	padding-top: 10px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
+	border-radius: 10px;
+	width: 70vw;
 }
 
-.lower-add-time-slots {
-	background-color: #eff1f3;
-	border: 2px solid grey;
-	padding-bottom: 10px;
-	padding-top: 10px;
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
+.time-slots-row {
+	width: 100%;
 }
 
 .current-hours-worked {
@@ -314,10 +309,27 @@ a:hover {
 }
 
 .timer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
+	margin-right: 20px;
+}
+
+.add-time-icons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-time-icons-col {
+	display: inline-grid;
 }
 
 .button-div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
 }
 
@@ -343,15 +355,69 @@ a:hover {
 }
 
 .add-time-slot-heading:hover {
-	border: 2px solid grey;
-	border-radius: 16px;
+	border: 1px solid grey;
+	border-radius: 12px;
 	transition: 0.25s ease-in-out;
 
-	font-size: 200%;
+	font-size: 175%;
 }
 
 .week-summary-text-container {
 	margin-top: 20px;
+}
+
+.manual-time-div {
+	text-align: center;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.submit-manual-btn {
+	background-color: blue;
+}
+
+#project-dropdown {
+	background-color: blue;
+}
+
+input {
+	background-color: white;
+	color: black;
+	text-align: center;
+}
+
+.timer {
+	display: inline;
+}
+
+.button-div {
+	display: inline;
+}
+
+.time-slots-components-col {
+	text-align: right;
+}
+
+.react-datepicker-wrapper {
+	display: inline;
+}
+
+.add-time-slots {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-project-link-div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.time-slots-col {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 @media (max-width: 1440px) {
@@ -442,43 +508,4 @@ a:hover {
 	.summary-task-container-heading {
 		padding-bottom: 10px;
 	}
-}
-
-.manual-time-div {
-	text-align: center;
-	margin-bottom: 5px;
-	margin-top: 5px;
-}
-
-.submit-manual-btn {
-	max-width: 40%;
-	margin-left: 30%;
-	margin-right: 30%;
-	background-color: blue;
-}
-
-.manual-time-row {
-	border-right: 2px solid grey;
-}
-
-#project-dropdown {
-	background-color: blue;
-}
-
-input {
-	background-color: white;
-	color: black;
-	text-align: center;
-}
-
-.timer {
-	display: inline;
-}
-
-.button-div {
-	display: inline;
-}
-
-.time-slots-components-col {
-	text-align: right;
 }

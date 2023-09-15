@@ -1,9 +1,9 @@
 import { Col, Container, Row, Dropdown } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import StopWatch from "./StopWatch";
+import StopWatch from "./StopWatch/StopWatch";
 
 import "react-datepicker/dist/react-datepicker.css";
-import ManualTimeEntry from "./ManualTimeEntry";
+import ManualTimeEntry from "./StopWatch/ManualTimeEntry";
 
 function AddTimeSlots() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -11,12 +11,12 @@ function AddTimeSlots() {
 	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
 
 	const handleClockIconClick = () => {
-		setShowStopWatch(!showStopWatch);
+		setShowStopWatch(true);
 		setShowManualTimeEntry(false);
 	};
 
 	const handleBarsIconClick = () => {
-		setShowManualTimeEntry(!showManualTimeEntry);
+		setShowManualTimeEntry(true);
 		setShowStopWatch(false);
 	};
 
@@ -39,7 +39,7 @@ function AddTimeSlots() {
 						placeholder="What are you hustling on?"
 					/>
 				</Col>
-				<Col xs={4} className="time-slots-col add-project-link-div">
+				<Col xs={2} className="time-slots-col add-project-link-div">
 					<Dropdown>
 						<Dropdown.Toggle id="project-dropdown">
 							Project
@@ -58,21 +58,25 @@ function AddTimeSlots() {
 						</Dropdown.Menu>
 					</Dropdown>
 				</Col>
-				<Col xs={4} className="time-slots-col">
-					<Row>
+				<Col xs={6} className="time-slots-col">
+					<Row className="time-slots-row">
 						<Col xs={11} className="time-slots-components-col">
 							{showStopWatch && <StopWatch />}
 							{showManualTimeEntry && <ManualTimeEntry />}
 						</Col>
-						<Col xs={1}>
-							<i
-								className="fa-solid fa-clock"
-								onClick={handleClockIconClick}
-							></i>
-							<i
-								className="fa-solid fa-bars"
-								onClick={handleBarsIconClick}
-							></i>
+						<Col xs={1} className="add-time-icons-col">
+							<Row className="add-time-icons">
+								<i
+									className="fa-solid fa-clock"
+									onClick={handleClockIconClick}
+								></i>
+							</Row>
+							<Row className="add-time-icons">
+								<i
+									className="fa-solid fa-bars"
+									onClick={handleBarsIconClick}
+								></i>
+							</Row>
 						</Col>
 					</Row>
 				</Col>

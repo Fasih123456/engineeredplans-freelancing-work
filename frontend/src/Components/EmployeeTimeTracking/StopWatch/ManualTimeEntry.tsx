@@ -1,14 +1,24 @@
 import { Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ManualTimeEntry() {
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowWidth(window.innerWidth);
+		}
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	return (
 		<>
-			<Row className="manual-time-row">
-				<Col xs={5}>
+			<Row className="manual-time-row centered-div">
+				<Col xs={4} className="centered-div date-picker-col">
 					<DatePicker
 						todayButton="Today"
 						selected={startDate}
@@ -19,7 +29,7 @@ function ManualTimeEntry() {
 					/>
 				</Col>
 
-				<Col xs={5}>
+				<Col xs={4} className="centered-div date-picker-col">
 					{" "}
 					<DatePicker
 						todayButton="Today"
@@ -30,7 +40,7 @@ function ManualTimeEntry() {
 						showTimeSelect
 					/>
 				</Col>
-				<Col xs={2}>
+				<Col xs={4}>
 					<button className="submit-manual-btn">Add</button>
 				</Col>
 			</Row>

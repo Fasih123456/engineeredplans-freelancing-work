@@ -74,6 +74,12 @@ body {
 	height: 100%;
 }
 
+.centered-div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .login-title {
 	font-size: 25px;
 	font-weight: bolder;
@@ -172,10 +178,6 @@ a:hover {
 .add-project-link-div:hover {
 	scale: 1.1;
 	transition: 0.3s ease-in-out;
-}
-
-.add-project-link-div {
-	padding-top: 10px;
 }
 
 .upper-add-time-slots {
@@ -309,9 +311,6 @@ a:hover {
 }
 
 .timer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	text-align: center;
 	margin-right: 20px;
 }
@@ -413,12 +412,6 @@ input {
 	display: inline;
 }
 
-.add-time-slots {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .add-project-link-div {
 	display: flex;
 	justify-content: center;
@@ -433,6 +426,16 @@ input {
 
 .week-summary-heading {
 	font-size: 30px;
+}
+
+.lower-add-time-slots {
+	background-color: #eff1f3;
+	border: 2px solid grey;
+	min-height: 93px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	border-radius: 10px;
+	width: 70vw;
 }
 
 @media (max-width: 1440px) {
@@ -460,6 +463,34 @@ input {
 }
 
 @media (max-width: 768px) {
+	input {
+		width: 70%;
+	}
+
+	.wrapper {
+		max-width: 100vw;
+		margin: 0px;
+		left: 0%;
+		padding: 0px;
+	}
+
+	.date-picker-col {
+		padding-left: 0px;
+		padding-right: 0px;
+		text-align: left;
+	}
+
+	.upper-add-time-slots {
+		border-radius: 0px;
+		width: 100vw;
+		border-bottom: 0px;
+	}
+
+	.lower-add-time-slots {
+		border-radius: 0px;
+		width: 100vw;
+	}
+
 	.login-title {
 		font-size: 19px;
 	}
@@ -472,14 +503,11 @@ input {
 		display: none;
 	}
 
-	.wrapper {
-		left: 0%;
-		max-width: 700px;
-		padding: 0px;
-		margin: 0px;
+	.add-time-slot-heading {
+		font-size: 15px;
 	}
 
-	.add-time-slot-heading {
+	.add-time-slot-heading:hover {
 		font-size: 18px;
 	}
 

@@ -32,20 +32,9 @@ router.post("/", authenticate, async (req, res) => {
 
 // PUT /employees/:employeeId
 router.put("/:employeeId", authenticate, async (req, res) => {
-	const employee = await Employee.findById(req.params.employeeId);
-	console.log(employee);
-	if (employee) {
-		employee.name = req.body.name;
-		employee.password = req.body.password;
-		await employee.update(
-			employee.employeeId,
-			req.body.name,
-			req.body.password
-		);
-		res.json(employee);
-	} else {
-		res.sendStatus(404);
-	}
+	const employee = new Employee(req.body.username, null, req.body.employeeId);
+	await employee.update(req.body.employeeId, req.body.username, null);
+	res.sendStatus(204);
 });
 
 // DELETE /employees/:employeeId

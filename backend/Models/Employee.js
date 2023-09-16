@@ -60,19 +60,18 @@ class Employee {
 		}
 	}
 
-	async update(currentEmployee, newName, newPassword) {
+	async update(currentEmployee, newName) {
 		try {
 			const request = pool.request();
 			await request
-				.input("employeeId", dataTypes.employeeId, currentEmployee)
-				.input("name", dataTypes.name, newName)
-				.input("password", dataTypes.password, newPassword).query(`
+				.input("employeeId", sql.VarChar, currentEmployee)
+				.input("name", sql.VarChar, newName).query(`
         UPDATE employee
-        SET name = @name, password = @password
+        SET name = @name
         WHERE employeeId = @employeeId
       `);
 
-			console.log(currentEmployee, newName, newPassword);
+			console.log(currentEmployee, newName);
 		} catch (err) {
 			console.error(err);
 		}

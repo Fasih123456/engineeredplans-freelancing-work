@@ -2,6 +2,7 @@ import Header from "../../Components/Header";
 import Menu from "../../Components/Menu";
 
 import { Row, Col, Container, Table } from "react-bootstrap";
+import ProjectDisplay from "../../Components/ProjectDisplay";
 
 function ProjectManagement() {
 	const projects = [
@@ -19,46 +20,7 @@ function ProjectManagement() {
 					</Col>
 					<Col xs={10}>
 						<Container className="wrapper">
-							<Row>
-								<Col>
-									<button>Delete Project</button>
-								</Col>
-								<Col>
-									<button>Create Project</button>
-								</Col>
-							</Row>
-							<Row>
-								<Table>
-									<thead>
-										<tr>
-											<th>Project Name</th>
-											<th>Hours Tracked</th>
-											<th>Employees Involved</th>
-											<th>Options</th>
-										</tr>
-									</thead>
-									<tbody>
-										{projects.map((project, index) => (
-											<tr key={index}>
-												<td>{project.name}</td>
-												<td>{project.hours}</td>
-												<td>{project.employees}</td>
-												<td>
-													<button>
-														Assign Employees
-													</button>
-													<button>
-														Edit Information
-													</button>
-													<button>
-														View All Instances
-													</button>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</Table>
-							</Row>
+							<ProjectDisplay />
 						</Container>
 					</Col>
 				</Row>

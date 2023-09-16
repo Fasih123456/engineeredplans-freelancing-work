@@ -4,11 +4,23 @@ import ControlButtons from "../ControlButtons";
 
 import { Row, Col } from "react-bootstrap";
 
-function StopWatch() {
-	const [isActive, setIsActive] = useState(false);
-	const [isPaused, setIsPaused] = useState(true);
-	const [time, setTime] = useState(0);
+type StopWatchProps = {
+	isActive: boolean;
+	setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+	isPaused: boolean;
+	setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
+	time: number;
+	setTime: React.Dispatch<React.SetStateAction<number>>;
+};
 
+function StopWatch({
+	isActive,
+	setIsActive,
+	isPaused,
+	setIsPaused,
+	time,
+	setTime,
+}: StopWatchProps) {
 	React.useEffect(() => {
 		let interval: number = 0;
 
@@ -41,13 +53,6 @@ function StopWatch() {
 	return (
 		<>
 			<Timer time={time} />
-			<ControlButtons
-				active={isActive}
-				isPaused={isPaused}
-				handleStart={handleStart}
-				handlePauseResume={handlePauseResume}
-				handleReset={handleReset}
-			/>
 		</>
 	);
 }

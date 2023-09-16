@@ -34,9 +34,21 @@ function Menu() {
 				</Row>
 				<Row className="each-menu-row">
 					<Col>
-						<i className="fa-solid fa-user fa-icon"></i>{" "}
+						<i className="fa-solid fa-user fa-icon"></i>
 						<a href="/employeemanage" className="menu-link">
 							Employee Management
+						</a>
+					</Col>
+				</Row>
+				<Row>
+					<Col className="logout-col">
+						<i className="fa-solid fa-right-from-bracket fa-icon"></i>
+						<a
+							href="/logout"
+							className="menu-link"
+							id="logout-link"
+						>
+							Logout
 						</a>
 					</Col>
 				</Row>

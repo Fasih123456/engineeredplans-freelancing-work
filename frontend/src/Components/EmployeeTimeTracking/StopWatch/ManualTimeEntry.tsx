@@ -18,7 +18,7 @@ function ManualTimeEntry() {
 	return (
 		<>
 			<Row className="manual-time-row centered-div">
-				<Col xs={4} className="centered-div date-picker-col">
+				<Col xs={6} className="centered-div date-picker-col">
 					<DatePicker
 						todayButton="Today"
 						selected={startDate}
@@ -29,8 +29,7 @@ function ManualTimeEntry() {
 					/>
 				</Col>
 
-				<Col xs={4} className="centered-div date-picker-col">
-					{" "}
+				<Col xs={6} className="centered-div date-picker-col">
 					<DatePicker
 						todayButton="Today"
 						selected={startDate}
@@ -39,9 +38,6 @@ function ManualTimeEntry() {
 						}
 						showTimeSelect
 					/>
-				</Col>
-				<Col xs={4}>
-					<button className="submit-manual-btn">Add</button>
 				</Col>
 			</Row>
 		</>

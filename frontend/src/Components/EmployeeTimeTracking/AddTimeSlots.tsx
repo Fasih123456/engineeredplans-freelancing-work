@@ -37,6 +37,25 @@ function AddTimeSlots() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const [showStopWatch, setShowStopWatch] = useState(true);
 	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
+	const [isActive, setIsActive] = useState(false);
+	const [isPaused, setIsPaused] = useState(true);
+	const [time, setTime] = useState(0);
+
+	const handlePlayIconClick = () => {
+		setIsActive(true);
+		setIsPaused(false);
+	};
+
+	const handleStopIconClick = () => {
+		setIsActive(false);
+		setIsPaused(true);
+		setTime(0);
+	};
+
+	const addManualEntry = () => {
+		setShowManualTimeEntry(true);
+		setShowStopWatch(false);
+	};
 
 	const handleClockIconClick = () => {
 		setShowStopWatch(true);
@@ -61,22 +80,66 @@ function AddTimeSlots() {
 		return (
 			<Col xs={width} className="time-slots-col">
 				<Row className="time-slots-row">
-					<Col xs={11} className="time-slots-components-col">
-						{showStopWatch && <StopWatch />}
+					<Col
+						xs={8}
+						className="time-slots-components-col centered-div"
+					>
+						{showStopWatch && (
+							<StopWatch
+								isActive={isActive}
+								setIsActive={setIsActive}
+								isPaused={isPaused}
+								setIsPaused={setIsPaused}
+								time={time}
+								setTime={setTime}
+							/>
+						)}
 						{showManualTimeEntry && <ManualTimeEntry />}
 					</Col>
-					<Col xs={1} className="add-time-icons-col">
+					<Col xs={4} className="add-time-icons-col">
 						<Row className="add-time-icons">
-							<i
-								className="fa-solid fa-clock"
-								onClick={handleClockIconClick}
-							></i>
+							{showManualTimeEntry && (
+								<i
+									className="fa-solid fa-clock"
+									onClick={handleClockIconClick}
+								></i>
+							)}
 						</Row>
+
 						<Row className="add-time-icons">
-							<i
-								className="fa-solid fa-bars"
-								onClick={handleBarsIconClick}
-							></i>
+							{showStopWatch && !isActive && (
+								<i
+									className="fa-solid fa-bars"
+									onClick={handleBarsIconClick}
+								></i>
+							)}
+						</Row>
+
+						<Row className="add-time-icons">
+							{showStopWatch && !isActive && (
+								<i
+									className="fa-solid fa-play"
+									onClick={handlePlayIconClick}
+								></i>
+							)}
+						</Row>
+
+						<Row className="add-time-icons">
+							{showStopWatch && isActive && (
+								<i
+									className="fa-solid fa-stop"
+									onClick={handleStopIconClick}
+								></i>
+							)}
+						</Row>
+
+						<Row className="add-time-icons">
+							{showManualTimeEntry && (
+								<i
+									className="fa-solid fa-plus"
+									onClick={addManualEntry}
+								></i>
+							)}
 						</Row>
 					</Col>
 				</Row>
@@ -103,22 +166,62 @@ function AddTimeSlots() {
 			</Row>
 			{windowWidth <= 768 && (
 				<Row className="lower-add-time-slots">
-					<Col xs={10} className="time-slots-components-col">
-						{showStopWatch && <StopWatch />}
+					<Col
+						xs={8}
+						className="time-slots-components-col centered-div"
+					>
+						{showStopWatch && (
+							<StopWatch
+								isActive={isActive}
+								setIsActive={setIsActive}
+								isPaused={isPaused}
+								setIsPaused={setIsPaused}
+								time={time}
+								setTime={setTime}
+							/>
+						)}
 						{showManualTimeEntry && <ManualTimeEntry />}
 					</Col>
-					<Col xs={2} className="add-time-icons-col">
+					<Col xs={4} className="add-time-icons-col">
 						<div className="add-time-icons">
-							<i
-								className="fa-solid fa-clock"
-								onClick={handleClockIconClick}
-							></i>
+							{showStopWatch && !isActive && (
+								<i
+									className="fa-solid fa-play"
+									onClick={handlePlayIconClick}
+								></i>
+							)}
 						</div>
 						<div className="add-time-icons">
-							<i
-								className="fa-solid fa-bars"
-								onClick={handleBarsIconClick}
-							></i>
+							{showStopWatch && isActive && (
+								<i
+									className="fa-solid fa-stop"
+									onClick={handleStopIconClick}
+								></i>
+							)}
+						</div>
+						<div className="add-time-icons">
+							{showManualTimeEntry && (
+								<i
+									className="fa-solid fa-clock"
+									onClick={handleClockIconClick}
+								></i>
+							)}
+						</div>
+						<div className="add-time-icons">
+							{showStopWatch && !isActive && (
+								<i
+									className="fa-solid fa-bars"
+									onClick={handleBarsIconClick}
+								></i>
+							)}
+						</div>
+						<div className="add-time-icons">
+							{showManualTimeEntry && (
+								<i
+									className="fa-solid fa-plus"
+									onClick={addManualEntry}
+								></i>
+							)}
 						</div>
 					</Col>
 				</Row>

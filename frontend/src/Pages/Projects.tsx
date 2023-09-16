@@ -4,16 +4,13 @@ import { Row, Col, Container, Table } from "react-bootstrap";
 //Component Imports
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
+import ProjectDisplay from "../Components/ProjectDisplay";
 
 function Projects() {
-	const projects = [
-		{ name: "Project 1", hours: 10, employees: "Sabih, Mustafa" },
-		{ name: "Project 2", hours: 20, employees: "Idress, Fasih" },
-	];
-
 	return (
 		<>
 			<Header />
+
 			<Container fluid>
 				<Row>
 					<Col xs={2}>
@@ -21,31 +18,11 @@ function Projects() {
 					</Col>
 					<Col xs={10}>
 						<Container className="wrapper">
+							<h2 className="projects-title">
+								Your Assigned Projects
+							</h2>
 							<Row>
-								<Table>
-									<thead>
-										<tr>
-											<th>Project Name</th>
-											<th>Hours Tracked</th>
-											<th>Employees Involved</th>
-											<th>Options</th>
-										</tr>
-									</thead>
-									<tbody>
-										{projects.map((project, index) => (
-											<tr key={index}>
-												<td>{project.name}</td>
-												<td>{project.hours}</td>
-												<td>{project.employees}</td>
-												<td>
-													<button>
-														View All Time
-													</button>
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</Table>
+								<ProjectDisplay />
 							</Row>
 						</Container>
 					</Col>

@@ -22,14 +22,15 @@ class Employee {
 		try {
 			const request = pool.request();
 			await request
-				.input("employeeId", dataTypes.employeeId, this.employeeId)
-				.input("name", dataTypes.name, this.name)
-				.input("password", dataTypes.password, this.password).query(`
+				.input("employeeId", sql.VarChar, this.employeeId)
+				.input("name", sql.VarChar, this.name)
+				.input("password", sql.VarChar, this.password).query(`
           INSERT INTO employee (employeeId, name, password)
           VALUES (@employeeId, @name, @password)
         `);
 
-			Permission.save(null, this.employeeId, "user"); //all new employees are users by default
+			const permission = new Permission(null, this.employeeId, "user");
+			await permission.save();
 		} catch (err) {
 			console.error(err);
 		}
@@ -116,12 +117,11 @@ class Employee {
 		try {
 			const request = pool.request();
 			const result = await request.query(`
-      SELECT * FROM employee
+      SELECT employeeId, name FROM employee
     `);
 
 			return result.recordset.map(
-				({ employeeId, name, password }) =>
-					new Employee(employeeId, name, password)
+				({ employeeId, name }) => new Employee(name, null, employeeId)
 			);
 		} catch (err) {
 			console.error(err);

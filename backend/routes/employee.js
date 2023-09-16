@@ -22,8 +22,10 @@ router.get("/:employeeId", authenticate, async (req, res) => {
 
 // POST /employees
 router.post("/", authenticate, async (req, res) => {
+	console.log(req.body);
 	const { name, password } = req.body;
 	const employee = new Employee(name, password);
+	console.log(employee);
 	await employee.save();
 	res.json(employee);
 });

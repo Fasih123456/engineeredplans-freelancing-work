@@ -1,8 +1,29 @@
-//Asset Imports
-import "../assets/mdb.min.css";
+import axios from "axios";
+import { useState } from "react";
 import loginImg from "../assets/images/login-image.webp";
+import { redirect, useNavigate } from "react-router-dom";
 
 function Login() {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
+	const navigate = useNavigate();
+
+	const handleLogin = async () => {
+		try {
+			const response = await axios.post("http://localhost:3001/login", {
+				username,
+				password,
+			});
+			const token = response.data.token;
+			localStorage.setItem("token", token);
+			localStorage.setItem("username", username);
+			navigate("/");
+		} catch (error) {
+			setErrorMessage("Invalid username or password");
+		}
+	};
+
 	return (
 		<>
 			<section
@@ -49,13 +70,13 @@ function Login() {
 														type="email"
 														id="form2Example17"
 														className="form-control form-control-lg"
+														value={username}
+														onChange={(e) =>
+															setUsername(
+																e.target.value
+															)
+														}
 													/>
-													<label
-														className="form-label"
-														htmlFor="form2Example17"
-													>
-														Email address
-													</label>
 												</div>
 
 												<div className="form-outline mb-4">
@@ -63,19 +84,20 @@ function Login() {
 														type="password"
 														id="form2Example27"
 														className="form-control form-control-lg"
+														value={password}
+														onChange={(e) =>
+															setPassword(
+																e.target.value
+															)
+														}
 													/>
-													<label
-														className="form-label"
-														htmlFor="form2Example27"
-													>
-														Password
-													</label>
 												</div>
 
 												<div className="pt-1 mb-4">
 													<button
 														className="btn btn-dark btn-lg btn-block"
 														type="button"
+														onClick={handleLogin}
 													>
 														Login
 													</button>
@@ -93,6 +115,14 @@ function Login() {
 													password reset.
 												</p>
 											</form>
+											{errorMessage && (
+												<div
+													className="alert alert-danger"
+													role="alert"
+												>
+													{errorMessage}
+												</div>
+											)}
 										</div>
 									</div>
 								</div>

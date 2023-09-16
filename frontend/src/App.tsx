@@ -7,9 +7,23 @@ import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
 import Projects from "./Pages/Projects";
 
+import { ToastContainer } from "react-toastify";
+
 function App() {
 	return (
 		<>
+			<ToastContainer
+				position="bottom-right"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<EmployeeTimeTracking />} />

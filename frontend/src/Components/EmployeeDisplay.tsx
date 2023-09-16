@@ -1,18 +1,26 @@
 import { Row, Col, Container, Table } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function EmployeeDisplay() {
-	const projects = [
-		{
-			name: "Sabih",
-			hours: 10,
-			hoursweek: 5,
-		},
-		{
-			name: "Fasih",
-			hours: 20,
-			hoursweek: 5,
-		},
-	];
+	const [employees, setEmployees] = useState([]);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		axios
+			.get("http://localhost:3001/employees", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((response) => {
+				console.log(response.data);
+				setEmployees(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 
 	return (
 		<>
@@ -22,18 +30,15 @@ function EmployeeDisplay() {
 						<th>Employee Name</th>
 						<th>Hours Tracked</th>
 						<th>Hours Per Week</th>
-
 						<th>Options</th>
 					</tr>
 				</thead>
 				<tbody>
-					{projects.map((project, index) => (
+					{employees.map((employee, index) => (
 						<tr key={index}>
-							<td>{project.name}</td>
-
-							<td>{project.hours}</td>
-							<td> {project.hoursweek}</td>
-
+							<td>{employee.name}</td>
+							<td>0</td>
+							<td>0</td>
 							<td>
 								<i className="fa-solid fa-trash fa-icon"></i>
 								<i className="fa-solid fa-pen-to-square fa-icon"></i>

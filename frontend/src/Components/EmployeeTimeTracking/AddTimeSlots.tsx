@@ -76,7 +76,8 @@ function AddTimeSlots() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	function timeSlotsCol(width: number) {
+	//Display the stopwatch and all the control icons in a the same row in desktop view
+	function timeSlotsDesktopView(width: number) {
 		return (
 			<Col xs={width} className="time-slots-col">
 				<Row className="time-slots-row">
@@ -147,24 +148,10 @@ function AddTimeSlots() {
 		);
 	}
 
-	return (
-		<Container
-			className={`${
-				windowWidth > 768
-					? "add-time-slots centered-div "
-					: "add-time-slots"
-			}`}
-		>
-			<Row className="upper-add-time-slots">
-				{windowWidth <= 768
-					? upperAddTimeSlots(8)
-					: upperAddTimeSlots(4)}
-
-				{windowWidth <= 768 ? addProjectLink(4) : addProjectLink(2)}
-
-				{windowWidth > 768 && timeSlotsCol(6)}
-			</Row>
-			{windowWidth <= 768 && (
+	//Display the stopwatch and all the control icons in a new row in mobile view
+	function timeSlotsMobileView() {
+		return (
+			<>
 				<Row className="lower-add-time-slots">
 					<Col
 						xs={8}
@@ -225,7 +212,28 @@ function AddTimeSlots() {
 						</div>
 					</Col>
 				</Row>
-			)}
+			</>
+		);
+	}
+
+	return (
+		<Container
+			className={`${
+				windowWidth > 768
+					? "add-time-slots centered-div "
+					: "add-time-slots"
+			}`}
+		>
+			<Row className="upper-add-time-slots">
+				{windowWidth <= 768
+					? upperAddTimeSlots(8)
+					: upperAddTimeSlots(4)}
+
+				{windowWidth <= 768 ? addProjectLink(4) : addProjectLink(4)}
+
+				{windowWidth > 768 && timeSlotsDesktopView(4)}
+			</Row>
+			{windowWidth <= 768 && timeSlotsMobileView()}
 		</Container>
 	);
 }

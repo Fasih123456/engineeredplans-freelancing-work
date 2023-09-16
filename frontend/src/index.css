@@ -338,6 +338,7 @@ a:hover {
 }
 
 .add-time-icons {
+	font-size: 26px;
 	margin: 4px;
 }
 
@@ -504,6 +505,10 @@ td {
 }
 
 @media (max-width: 1440px) {
+	.add-time-icons {
+		font-size: 24px;
+	}
+
 	.wrapper {
 		max-width: 1180px;
 	}
@@ -522,6 +527,10 @@ td {
 }
 
 @media (max-width: 1024px) {
+	.add-time-icons {
+		font-size: 22px;
+	}
+
 	.projects-table {
 		max-width: 75vw;
 	}
@@ -570,6 +579,10 @@ td {
 }
 
 @media (max-width: 768px) {
+	.add-time-icons {
+		font-size: 20px;
+	}
+
 	#header a {
 		font-size: 15px;
 	}

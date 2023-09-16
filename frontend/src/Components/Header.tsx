@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 
 function Header() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const username = localStorage.getItem("username");
 
 	useEffect(() => {
 		function handleResize() {
@@ -32,7 +33,11 @@ function Header() {
 					/>
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="ms-auto">
-							<Nav.Link href="/">Employee Name</Nav.Link>
+							<Nav.Link href="/">
+								{Math.random() < 0.5
+									? `Hello, ${username}`
+									: `Bonjour, ${username}`}
+							</Nav.Link>
 							{windowWidth <= 768 && (
 								<>
 									<Nav.Link href="/login" onClick={logout()}>

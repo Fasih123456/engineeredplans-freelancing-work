@@ -5,6 +5,62 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
+interface EmployeeModalProps {
+	show: boolean;
+	handleClose: () => void;
+	handleEditSaves: () => void;
+	selectedEmployee: {
+		employeeId: number;
+		name: string;
+	};
+	newUserName: string;
+	setNewUserName: (name: string) => void;
+}
+
+function EmployeeModal({
+	show,
+	handleClose,
+	handleEditSaves,
+	selectedEmployee,
+	newUserName,
+	setNewUserName,
+}: EmployeeModalProps) {
+	return (
+		<Modal show={show} onHide={handleClose}>
+			<Modal.Header closeButton>
+				<Modal.Title>Modal heading</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form>
+					<Form.Group
+						className="mb-3"
+						controlId="exampleForm.ControlInput1"
+					>
+						<Form.Label>Name</Form.Label>
+						<Form.Control
+							type="email"
+							value={newUserName ? newUserName : ""}
+							placeholder={selectedEmployee?.name}
+							onChange={(e) => {
+								setNewUserName(e.target.value);
+							}}
+							autoFocus
+						/>
+					</Form.Group>
+				</Form>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button variant="secondary" onClick={handleClose}>
+					Close
+				</Button>
+				<Button variant="primary" onClick={handleEditSaves}>
+					Save Changes
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+}
+
 function EmployeeDisplay() {
 	const [employees, setEmployees] = useState([]);
 	const [showEditModal, setShowEditModal] = useState(false);
@@ -22,10 +78,10 @@ function EmployeeDisplay() {
 		try {
 			const token = localStorage.getItem("token");
 			const response = await axios.put(
-				`http://localhost:3001/employees/${selectedEmployee.employeeId}`,
+				`http://localhost:3001/employees/${selectedEmployee?.employeeId}`,
 				{
 					username: newUserName,
-					employeeId: selectedEmployee.employeeId,
+					employeeId: selectedEmployee?.employeeId,
 				},
 				{
 					headers: {
@@ -118,38 +174,14 @@ function EmployeeDisplay() {
 					))}
 				</tbody>
 			</Table>
-			<Modal show={showEditModal} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>Modal heading</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<Form>
-						<Form.Group
-							className="mb-3"
-							controlId="exampleForm.ControlInput1"
-						>
-							<Form.Label>Name</Form.Label>
-							<Form.Control
-								type="email"
-								value={newUserName ? newUserName : ""}
-								placeholder={selectedEmployee?.name}
-								onChange={(e) => {
-									setNewUserName(e.target.value);
-								}}
-								autoFocus
-							/>
-						</Form.Group>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
-					<Button variant="primary" onClick={handleEditSaves}>
-						Save Changes
-					</Button>
-				</Modal.Footer>
-			</Modal>
+			<EmployeeModal
+				show={showEditModal}
+				handleClose={handleClose}
+				handleEditSaves={handleEditSaves}
+				selectedEmployee={selectedEmployee}
+				newUserName={newUserName}
+				setNewUserName={setNewUserName}
+			/>
 		</>
 	);
 }

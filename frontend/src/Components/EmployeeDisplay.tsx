@@ -99,6 +99,9 @@ function EmployeeDisplay() {
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
+		if (!token) {
+			window.location.href = "/login";
+		}
 		axios
 			.get("http://localhost:3001/employees", {
 				headers: {

@@ -1,10 +1,39 @@
 import { Row, Col, Container, Table } from "react-bootstrap";
 
-function ProjectDisplay() {
-	const projects = [
-		{ name: "Project 1", hours: 10, employees: "Sabih, Mustafa" },
-		{ name: "Project 2", hours: 20, employees: "Idress, Fasih" },
-	];
+import React, { useState, useEffect } from "react";
+
+import axios from "axios";
+
+interface ProjectDisplayProps {
+	accessLevel: string;
+}
+
+function ProjectDisplay({ accessLevel }: ProjectDisplayProps) {
+	const [projects, setProjects] = useState([]);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			window.location.href = "/login";
+		}
+
+		const response = axios
+			.get("http://localhost:3001/projects", {
+				params: {
+					employeeId: localStorage.getItem("employeeId"),
+				},
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((response) => {
+				console.log(response.data);
+				setProjects(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 
 	return (
 		<Table className="projects-table">

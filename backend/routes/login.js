@@ -9,6 +9,7 @@ router.post("/login", async (req, res) => {
 
 	// Verify username and password against the database
 	const employee = await Employee.checkVerification(username, password);
+	const employeeId = employee.employeeId;
 
 	if (!employee) {
 		return res
@@ -25,6 +26,8 @@ router.post("/login", async (req, res) => {
 		}
 	);
 
-	res.json({ token });
+	console.log(token);
+
+	res.json({ token, employeeId });
 });
 module.exports = router;

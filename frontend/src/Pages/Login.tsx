@@ -15,9 +15,11 @@ function Login() {
 				username,
 				password,
 			});
+
 			const token = response.data.token;
+			const employeeId = response.data.employeeId;
 			localStorage.setItem("token", token);
-			localStorage.setItem("username", username);
+			localStorage.setItem("employeeId", employeeId);
 			navigate("/");
 		} catch (error) {
 			setErrorMessage("Invalid username or password");

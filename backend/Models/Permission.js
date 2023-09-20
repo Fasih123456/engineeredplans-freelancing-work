@@ -85,14 +85,15 @@ class Permission {
 				employeeId
 			);
 			const result = await request.query(`
-        SELECT permissionId, permissionType
+        SELECT  permissionType
         FROM permission
         WHERE employeeId = @employeeId
       `);
 
+			console.log(result);
+
 			return result.recordset.map(
-				({ permissionId, permissionType }) =>
-					new Permission(permissionId, permissionType)
+				({ permissionType }) => new Permission(null, permissionType)
 			);
 		} catch (error) {
 			console.log(error);

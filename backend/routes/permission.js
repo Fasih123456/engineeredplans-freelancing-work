@@ -3,14 +3,6 @@ const router = express.Router();
 const Permission = require("../Models/Permission");
 const authenticate = require("../MiddleWare/JWTAuth");
 
-// Example routes for the Permission class
-router.post("/", authenticate, async (req, res) => {
-	const { employeeId, permissionType } = req.body;
-	const permission = new Permission(null, employeeId, permissionType);
-	await permission.save();
-	res.sendStatus(201);
-});
-
 router.put("/:permissionId", authenticate, async (req, res) => {
 	const { permissionId } = req.params;
 	const { permissionType } = req.body;
@@ -30,7 +22,6 @@ router.delete("/:permissionId", authenticate, async (req, res) => {
 	res.sendStatus(200);
 });
 
-// Example routes for the Permission class
 router.get("/", authenticate, async (req, res) => {
 	const permissions = await Permission.findAll();
 	res.json(permissions);

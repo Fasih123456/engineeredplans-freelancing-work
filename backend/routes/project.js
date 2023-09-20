@@ -2,12 +2,21 @@ const express = require("express");
 const router = express.Router();
 const Project = require("../Models/Project");
 const authenticate = require("../MiddleWare/JWTAuth");
+const Permission = require("../Models/Permission");
 
 // GET /projects
+//Client required Admin permission to view all projects
 router.get("/", authenticate, async (req, res) => {
 	try {
-		const projects = await Project.findAll();
-		res.json(projects);
+		const employeeId = req.employeeId;
+		const PermissionStatus = await Permission.findById(employeeId);
+		console.log("permission status", PermissionStatus);
+		if (PermissionStatus.permissionType == "Admin") {
+			const projects = await Project.findAll();
+			res.json(projects);
+		} else {
+			res.sendStatus(403);
+		}
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(500);

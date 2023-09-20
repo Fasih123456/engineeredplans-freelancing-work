@@ -22,7 +22,7 @@ function Projects() {
 								Your Assigned Projects
 							</h2>
 							<Row>
-								<ProjectDisplay />
+								<ProjectDisplay accessLevel="user" />
 							</Row>
 						</Container>
 					</Col>

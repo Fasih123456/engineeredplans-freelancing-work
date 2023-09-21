@@ -1,7 +1,12 @@
-import axios from "axios";
+//React imports
 import { useState } from "react";
+import { serverRequest } from "../GlobalFunctions";
+//CSS imports
 import loginImg from "../assets/images/login-image.webp";
-import { redirect, useNavigate } from "react-router-dom";
+
+//Library imports
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
 	const [username, setUsername] = useState("");
@@ -11,9 +16,13 @@ function Login() {
 
 	const handleLogin = async () => {
 		try {
-			const response = await axios.post("http://localhost:3001/login", {
-				username,
-				password,
+			const response = serverRequest({
+				method: "post",
+				url: "employees",
+				data: {
+					username,
+					password,
+				},
 			});
 
 			const token = response.data.token;

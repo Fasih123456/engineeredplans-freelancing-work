@@ -1,4 +1,5 @@
-import { Col, Container, Row } from "react-bootstrap";
+//Component Imports
+import { Col, Row } from "react-bootstrap";
 
 function EachInstance() {
 	return (

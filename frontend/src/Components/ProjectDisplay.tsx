@@ -1,34 +1,29 @@
-import { Row, Col, Container, Table } from "react-bootstrap";
+//React imports
+import { serverRequest } from "../GlobalFunctions";
+import { useState, useEffect } from "react";
+//Library imports
+import { Table } from "react-bootstrap";
 
-import React, { useState, useEffect } from "react";
-
-import axios from "axios";
-
-interface ProjectDisplayProps {
-	accessLevel: string;
+interface Project {
+	projectId: number;
+	project_name: string;
+	employeeIds: string;
 }
 
-function ProjectDisplay({ accessLevel }: ProjectDisplayProps) {
-	const [projects, setProjects] = useState([]);
+function ProjectDisplay() {
+	const [projects, setProjects] = useState<Project[]>([]);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (!token) {
-			window.location.href = "/login";
-		}
-
-		const response = axios
-			.get("http://localhost:3001/projects", {
-				params: {
-					employeeId: localStorage.getItem("employeeId"),
-				},
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+		serverRequest({
+			method: "get",
+			url: "projects",
+			params: {
+				employeeId: localStorage.getItem("employeeId"),
+			},
+		})
 			.then((response) => {
-				console.log(response.data);
-				setProjects(response.data);
+				console.log(response);
+				setProjects(response);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -48,9 +43,9 @@ function ProjectDisplay({ accessLevel }: ProjectDisplayProps) {
 			<tbody>
 				{projects.map((project, index) => (
 					<tr key={index}>
-						<td>{project.name}</td>
-						<td>{project.hours}</td>
-						<td>{project.employees}</td>
+						<td>{project.project_name}</td>
+						<td>0</td>
+						<td>{project.employeeIds}</td>
 						<td>
 							<button className="projects-btn">
 								View All Time

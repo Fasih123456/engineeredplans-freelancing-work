@@ -1,5 +1,5 @@
 //Bootstrap Imports
-import { Row, Col, Container, Table } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 
 //Component Imports
 import Header from "../Components/Header";
@@ -22,7 +22,7 @@ function Projects() {
 								Your Assigned Projects
 							</h2>
 							<Row>
-								<ProjectDisplay accessLevel="user" />
+								<ProjectDisplay />
 							</Row>
 						</Container>
 					</Col>

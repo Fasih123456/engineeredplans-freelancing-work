@@ -1,14 +1,18 @@
+//CSS imports
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+//Library imports
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
+//Component Imports
 import Login from "./Pages/Login";
 import EmployeeManagement from "./Pages/Admin/EmployeeManagement";
 import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
 import Projects from "./Pages/Projects";
 
-import { ToastContainer } from "react-toastify";
-
+//TODO: Force react app to send you to login page if you dont have valid token
 function App() {
 	return (
 		<>

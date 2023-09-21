@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+//Component Imports
+import { useEffect } from "react";
 import Timer from "./Timer";
-import ControlButtons from "../ControlButtons";
-
-import { Row, Col } from "react-bootstrap";
 
 type StopWatchProps = {
 	isActive: boolean;
@@ -13,15 +11,8 @@ type StopWatchProps = {
 	setTime: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function StopWatch({
-	isActive,
-	setIsActive,
-	isPaused,
-	setIsPaused,
-	time,
-	setTime,
-}: StopWatchProps) {
-	React.useEffect(() => {
+function StopWatch({ isActive, isPaused, time, setTime }: StopWatchProps) {
+	useEffect(() => {
 		let interval: number = 0;
 
 		if (isActive && isPaused === false) {
@@ -35,20 +26,6 @@ function StopWatch({
 			clearInterval(interval);
 		};
 	}, [isActive, isPaused]);
-
-	const handleStart = () => {
-		setIsActive(true);
-		setIsPaused(false);
-	};
-
-	const handlePauseResume = () => {
-		setIsPaused(!isPaused);
-	};
-
-	const handleReset = () => {
-		setIsActive(false);
-		setTime(0);
-	};
 
 	return (
 		<>

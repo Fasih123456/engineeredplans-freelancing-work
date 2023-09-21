@@ -1,9 +1,13 @@
-import { Col, Container, Row, Dropdown } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
-import StopWatch from "./StopWatch/StopWatch";
+//React imports
+import { useState, useEffect } from "react";
 
-import "react-datepicker/dist/react-datepicker.css";
+//Component Imports
+import StopWatch from "./StopWatch/StopWatch";
 import ManualTimeEntry from "./StopWatch/ManualTimeEntry";
+
+//Library imports
+import { Col, Container, Row, Dropdown } from "react-bootstrap";
+import "react-datepicker/dist/react-datepicker.css";
 
 function upperAddTimeSlots(width: number) {
 	return (

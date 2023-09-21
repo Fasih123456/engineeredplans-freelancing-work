@@ -1,8 +1,9 @@
+//Component Imports
+import ProjectDisplay from "../../Components/ProjectDisplay";
 import Header from "../../Components/Header";
 import Menu from "../../Components/Menu";
-
-import { Row, Col, Container, Table } from "react-bootstrap";
-import ProjectDisplay from "../../Components/ProjectDisplay";
+//Library imports
+import { Row, Col, Container } from "react-bootstrap";
 
 function ProjectManagement() {
 	return (

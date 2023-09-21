@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+//React imports
+import { useState } from "react";
+
+//Library Imports
 import { Modal, Button, Form } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface CreateEmployeeModalProps {
@@ -12,6 +15,7 @@ interface CreateEmployeeModalProps {
 	}) => void;
 }
 
+//TODO: Add option to set projects in this section
 function CreateEmployeeModal({
 	show,
 	onHide,

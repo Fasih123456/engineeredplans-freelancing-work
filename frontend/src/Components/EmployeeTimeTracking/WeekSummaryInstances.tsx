@@ -1,8 +1,10 @@
-import { Col, Container, Row } from "react-bootstrap";
-
-import React, { useState } from "react";
-
+//Component imports
 import EachInstance from "./EachInstance";
+//React imports
+import { useState } from "react";
+
+//Library imports
+import { Col, Container, Row } from "react-bootstrap";
 
 function InstanceCard() {
 	const [showEachInstance, setShowEachInstance] = useState(false);

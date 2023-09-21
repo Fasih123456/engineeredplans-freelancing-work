@@ -1,3 +1,4 @@
+//Component imports
 import { Col, Container, Row } from "react-bootstrap";
 
 function WeekSummary() {

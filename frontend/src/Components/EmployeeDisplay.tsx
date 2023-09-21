@@ -1,9 +1,11 @@
-import { Row, Col, Container, Table, Form } from "react-bootstrap";
-import { useState, useEffect } from "react";
+//Library imports
+import { Table, Form, Button, Modal } from "react-bootstrap";
 import axios from "axios";
+//React imports
+import { useState, useEffect } from "react";
+import { serverRequest } from "../GlobalFunctions";
 
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+//Component imports
 
 interface EmployeeModalProps {
 	show: boolean;
@@ -28,7 +30,7 @@ function EmployeeModal({
 	return (
 		<Modal show={show} onHide={handleClose}>
 			<Modal.Header closeButton>
-				<Modal.Title>Modal heading</Modal.Title>
+				<Modal.Title>Employee Information</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form>
@@ -61,11 +63,16 @@ function EmployeeModal({
 	);
 }
 
+interface Employee {
+	employeeId: string;
+	name: string;
+}
+
 function EmployeeDisplay() {
-	const [employees, setEmployees] = useState([]);
+	const [employees, setEmployees] = useState<Employee[]>([]);
 	const [showEditModal, setShowEditModal] = useState(false);
-	const [selectedEmployee, setSelectedEmployee] = useState();
-	const [newUserName, setNewUserName] = useState("");
+	const [selectedEmployee, setSelectedEmployee] = useState<Employee>();
+	const [newUserName, setNewUserName] = useState<String>("");
 
 	const handleClose = () => setShowEditModal(false);
 	const handleShow = (employee: any) => {
@@ -73,23 +80,19 @@ function EmployeeDisplay() {
 		setSelectedEmployee(employee);
 	};
 
+	//TODO: add valid toast for when employee is updated
 	const handleEditSaves = async () => {
 		console.log(newUserName);
 		try {
-			const token = localStorage.getItem("token");
-			const response = await axios.put(
-				`http://localhost:3001/employees/${selectedEmployee?.employeeId}`,
-				{
+			const response = serverRequest({
+				method: "put",
+				url: `employees/${selectedEmployee?.employeeId}`,
+				data: {
 					username: newUserName,
 					employeeId: selectedEmployee?.employeeId,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			console.log("Employee updated:", response.data);
+			});
+
 			setShowEditModal(false);
 			setNewUserName("");
 		} catch (error) {
@@ -98,40 +101,34 @@ function EmployeeDisplay() {
 	};
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (!token) {
-			window.location.href = "/login";
-		}
-		axios
-			.get("http://localhost:3001/employees", {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+		serverRequest({
+			method: "get",
+			url: "employees",
+		})
 			.then((response) => {
-				console.log(response.data);
-				setEmployees(response.data);
-			})
-			.then(() => {
-				console.log(employees);
+				console.log(response);
+				setEmployees(
+					response.map((employee) => ({
+						employeeId: employee.employeeId,
+						name: employee.name,
+					}))
+				);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
 
-	const handleDeleteEmployee = async (employeeId) => {
+	//TODO: add toast for when employee is deleted
+	const handleDeleteEmployee = async (employeeId: string) => {
 		try {
 			const token = localStorage.getItem("token");
-			const response = await axios.delete(
-				`http://localhost:3001/employees/${employeeId}`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			console.log("Employee deleted:", response.data);
+
+			const response = serverRequest({
+				method: "delete",
+				url: `employees/${employeeId}`,
+			});
+
 			setEmployees(
 				employees.filter(
 					(employee) => employee.employeeId !== employeeId
@@ -148,8 +145,8 @@ function EmployeeDisplay() {
 				<thead>
 					<tr>
 						<th>Employee Name</th>
+						<th>Projects Involved</th>
 						<th>Hours Tracked</th>
-						<th>Hours Per Week</th>
 						<th>Options</th>
 					</tr>
 				</thead>

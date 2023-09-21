@@ -1,10 +1,12 @@
+//Library imports
 import { Container, Row, Col } from "react-bootstrap";
 
 function Menu() {
 	return (
+		//TODO: make logout its own section or disconnect it from the admin panel
 		<Container className="menu-left">
 			<div className="each-menu-section">
-				<h2 className="menu-section-heading">Manage</h2>
+				<h2 className="menu-section-heading">Your Pages</h2>
 				<Row className="each-menu-row">
 					<Col>
 						<i className="fa-solid fa-clock fa-icon"></i>
@@ -26,7 +28,7 @@ function Menu() {
 				<h2 className="menu-section-heading">Admin Panel</h2>
 				<Row className="each-menu-row">
 					<Col>
-						<i className="fa-solid fa-dollar-sign fa-icon"></i>{" "}
+						<i className="fa-solid fa-dollar-sign fa-icon"></i>
 						<a href="/projectmanage" className="menu-link">
 							Project Management
 						</a>

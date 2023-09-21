@@ -1,8 +1,12 @@
+//Component imports
+
+//Library imports
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-import React, { useState, useEffect } from "react";
+//React imports
+import { useState, useEffect } from "react";
 
 function Header() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -17,9 +21,8 @@ function Header() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	const logout = () => {
-		//handle logout
-	};
+	//TODO: handle logout
+	const logout = () => {};
 
 	return (
 		<>

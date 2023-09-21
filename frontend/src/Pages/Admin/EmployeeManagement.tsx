@@ -1,13 +1,16 @@
+//React imports
+import { serverRequest } from "../../GlobalFunctions";
+import { useState } from "react";
+
+//Library imports
+import { Row, Col, Container, Button } from "react-bootstrap";
+
+//Component imports
 import EmployeeDisplay from "../../Components/EmployeeDisplay";
 import Header from "../../Components/Header";
 import Menu from "../../Components/Menu";
 import CreateEmployeeModal from "../../Components/EmployeeManagment/CreateEmployeeModal";
 
-import { Row, Col, Container, Table, Button } from "react-bootstrap";
-
-import axios from "axios";
-
-import React, { useState } from "react";
 function EmployeeManagement() {
 	const [showCreateEmployeeModal, setShowCreateEmployeeModal] =
 		useState(false);
@@ -17,17 +20,11 @@ function EmployeeManagement() {
 		password: string;
 	}) => {
 		try {
-			const token = localStorage.getItem("token");
-			const response = await axios.post(
-				"http://localhost:3001/employees",
-				employeeData,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			console.log("Employee created:", response.data);
+			await serverRequest({
+				method: "post",
+				url: "employees",
+				data: employeeData,
+			});
 		} catch (error) {
 			console.error(error);
 		}
@@ -61,7 +58,7 @@ function EmployeeManagement() {
 					</Col>
 				</Row>
 			</Container>
-			{/* Render the CreateEmployeeModal */}
+
 			<CreateEmployeeModal
 				show={showCreateEmployeeModal}
 				onHide={() => setShowCreateEmployeeModal(false)}

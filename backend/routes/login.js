@@ -6,6 +6,7 @@ const router = require("express").Router();
 
 router.post("/login", async (req, res) => {
 	const { username, password } = req.body;
+	console.log(req.body);
 
 	// Verify username and password against the database
 	const employee = await Employee.checkVerification(username, password);

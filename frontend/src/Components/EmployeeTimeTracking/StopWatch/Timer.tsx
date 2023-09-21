@@ -1,3 +1,4 @@
+//TODO: turn this from HH:SS:MS to HH:MM:SS
 export default function Timer(props: { time: number }) {
 	return (
 		<div className="timer centered-div">

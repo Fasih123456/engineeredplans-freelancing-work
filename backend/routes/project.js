@@ -9,9 +9,10 @@ const Permission = require("../Models/Permission");
 router.get("/", authenticate, async (req, res) => {
 	try {
 		const employeeId = req.employeeId;
-		const PermissionStatus = await Permission.findById(employeeId);
+		console.log("emplyoee id", employeeId);
+		const PermissionStatus = await Permission.findByEmployeeId(employeeId);
 		console.log("permission status", PermissionStatus);
-		if (PermissionStatus.permissionType == "Admin") {
+		if (PermissionStatus[0].permissionType == "admin") {
 			const projects = await Project.findAll();
 			res.json(projects);
 		} else {

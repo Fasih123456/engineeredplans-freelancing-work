@@ -4,9 +4,10 @@ const { pool } = require("../Util/db");
 const Employee = require("../Models/Employee");
 const router = require("express").Router();
 
-router.post("/login", async (req, res) => {
-	const { username, password } = req.body;
-	console.log(req.body);
+router.get("/login", async (req, res) => {
+	const { username, password } = req.query;
+	console.log("login body", req.query);
+	console.log(username, password);
 
 	// Verify username and password against the database
 	const employee = await Employee.checkVerification(username, password);

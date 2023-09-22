@@ -1,38 +1,49 @@
 //React imports
 import { useState } from "react";
-import { serverRequest } from "../GlobalFunctions";
+import { useNavigate } from "react-router-dom";
 //CSS imports
 import loginImg from "../assets/images/login-image.webp";
 
 //Library imports
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+//TODO: make the login suggestions pop up correctly
 function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
+	const loggedIn = localStorage.getItem("token");
 	const navigate = useNavigate();
 
-	const handleLogin = async () => {
-		try {
-			const response = serverRequest({
-				method: "post",
-				url: "employees",
-				data: {
-					username,
-					password,
+	const handleLogin = () => {
+		//Do not replace with serverRequest function, this is a special case
+		axios
+			.get("http://localhost:3001/login", {
+				params: {
+					username: username,
+					password: password,
 				},
-			});
+			})
+			.then(({ data, status }) => {
+				if (status === 200) {
+					console.log(data);
+					const { token, employeeId } = data;
 
-			const token = response.data.token;
-			const employeeId = response.data.employeeId;
-			localStorage.setItem("token", token);
-			localStorage.setItem("employeeId", employeeId);
-			navigate("/");
-		} catch (error) {
-			setErrorMessage("Invalid username or password");
-		}
+					localStorage.removeItem("token");
+					localStorage.removeItem("username");
+					localStorage.removeItem("employeeId");
+
+					localStorage.setItem("token", token);
+					localStorage.setItem("employeeId", employeeId);
+					localStorage.setItem("username", username);
+					navigate("/");
+				} else {
+					setErrorMessage("Invalid username or password");
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	};
 
 	return (

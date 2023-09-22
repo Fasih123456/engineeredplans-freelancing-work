@@ -77,20 +77,28 @@ class Employee {
 		}
 	}
 
-	async delete(employeeId) {
+	static async delete(employeeId) {
 		console.log(employeeId);
 		try {
 			const request = pool.request();
-			await request.input("employeeId", dataTypes.employeeId, employeeId)
-				.query(`
-        DELETE FROM employee
-        WHERE employeeId = @employeeId
-      `);
+			request.input("employeeId", dataTypes.employeeId, employeeId);
+			await request.query(`
+      DELETE FROM permission
+      WHERE employeeId = @employeeId
+    `);
+			await request.query(`
+      UPDATE task
+      SET employeeId = NULL
+      WHERE employeeId = @employeeId
+    `);
+			await request.query(`
+      DELETE FROM employee
+      WHERE employeeId = @employeeId
+    `);
 		} catch (err) {
 			console.error(err);
 		}
 	}
-
 	static async findById(employeeId) {
 		try {
 			const request = pool.request();
@@ -102,7 +110,7 @@ class Employee {
 
 			if (result.recordset.length > 0) {
 				const { name, password } = result.recordset[0];
-				return new Employee(employeeId, name, password);
+				return new Employee(name, password, employeeId);
 			} else {
 				return null;
 			}

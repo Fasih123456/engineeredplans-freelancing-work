@@ -9,6 +9,7 @@ interface RequestOptions {
 }
 
 const serverRequest = async (options: RequestOptions) => {
+	console.log(options);
 	const token = localStorage.getItem("token");
 	const response = await axios({
 		method: options.method,
@@ -21,7 +22,8 @@ const serverRequest = async (options: RequestOptions) => {
 			...options.params,
 		},
 	});
-	return response.data;
+
+	return response;
 };
 
 export { serverRequest };

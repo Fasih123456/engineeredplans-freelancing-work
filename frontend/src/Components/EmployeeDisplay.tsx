@@ -108,7 +108,7 @@ function EmployeeDisplay() {
 			.then((response) => {
 				console.log(response);
 				setEmployees(
-					response.map((employee) => ({
+					response.data.map((employee) => ({
 						employeeId: employee.employeeId,
 						name: employee.name,
 					}))
@@ -127,6 +127,8 @@ function EmployeeDisplay() {
 			const response = serverRequest({
 				method: "delete",
 				url: `employees/${employeeId}`,
+			}).then((response) => {
+				console.log(response);
 			});
 
 			setEmployees(

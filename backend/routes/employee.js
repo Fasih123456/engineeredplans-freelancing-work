@@ -6,7 +6,7 @@ const authenticate = require("../MiddleWare/JWTAuth");
 // GET /employees
 router.get("/", authenticate, async (req, res) => {
 	const employees = await Employee.findAll();
-	res.json(employees);
+	res.status(200).json(employees);
 });
 
 // GET /employees/:employeeId
@@ -14,9 +14,9 @@ router.get("/:employeeId", authenticate, async (req, res) => {
 	console.log(req.params.employeeId);
 	const employee = await Employee.findById(req.params.employeeId);
 	if (employee) {
-		res.json(employee);
+		res.status(200).json(employee);
 	} else {
-		res.sendStatus(404);
+		res.status(404).send("Employee not found");
 	}
 });
 
@@ -27,7 +27,7 @@ router.post("/", authenticate, async (req, res) => {
 	const employee = new Employee(name, password);
 	console.log(employee);
 	await employee.save();
-	res.json(employee);
+	res.status(201).json(employee);
 });
 
 // PUT /employees/:employeeId
@@ -42,7 +42,7 @@ router.delete("/:employeeId", authenticate, async (req, res) => {
 	const employee = await Employee.findById(req.params.employeeId);
 	console.log(employee);
 	if (employee) {
-		await employee.delete(employee.employeeId);
+		await Employee.delete(employee.employeeId);
 		res.sendStatus(204);
 	} else {
 		res.sendStatus(404);

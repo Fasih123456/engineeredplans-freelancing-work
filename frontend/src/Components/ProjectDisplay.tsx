@@ -23,7 +23,8 @@ function ProjectDisplay() {
 		})
 			.then((response) => {
 				console.log(response);
-				setProjects(response);
+				const projects: Project[] = response.data;
+				setProjects(projects);
 			})
 			.catch((error) => {
 				console.log(error);

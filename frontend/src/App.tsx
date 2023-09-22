@@ -2,7 +2,7 @@
 import "./App.css";
 
 //Library imports
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 //Component Imports
@@ -14,6 +14,8 @@ import Projects from "./Pages/Projects";
 
 //TODO: Force react app to send you to login page if you dont have valid token
 function App() {
+	const token = localStorage.getItem("token");
+
 	return (
 		<>
 			<ToastContainer
@@ -30,16 +32,25 @@ function App() {
 			/>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<EmployeeTimeTracking />} />
-					<Route
-						path="/projectmanage"
-						element={<ProjectManagement />}
-					/>
-					<Route
-						path="/employeemanage"
-						element={<EmployeeManagement />}
-					/>
-					<Route path="/projects" element={<Projects />} />
+					{token ? (
+						<>
+							<Route
+								path="/"
+								element={<EmployeeTimeTracking />}
+							/>
+							<Route
+								path="/projectmanage"
+								element={<ProjectManagement />}
+							/>
+							<Route
+								path="/employeemanage"
+								element={<EmployeeManagement />}
+							/>
+							<Route path="/projects" element={<Projects />} />
+						</>
+					) : (
+						<Route path="*" element={<Navigate to="/login" />} />
+					)}
 					<Route path="/login" element={<Login />} />
 				</Routes>
 			</BrowserRouter>

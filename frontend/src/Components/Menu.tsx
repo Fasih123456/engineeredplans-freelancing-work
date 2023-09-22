@@ -46,9 +46,14 @@ function Menu() {
 					<Col className="logout-col">
 						<i className="fa-solid fa-right-from-bracket fa-icon"></i>
 						<a
-							href="/logout"
+							href="/"
 							className="menu-link"
 							id="logout-link"
+							onClick={() => {
+								localStorage.removeItem("token");
+								localStorage.removeItem("username");
+								localStorage.removeItem("employeeId");
+							}}
 						>
 							Logout
 						</a>

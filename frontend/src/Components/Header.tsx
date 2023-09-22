@@ -21,8 +21,11 @@ function Header() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	//TODO: handle logout
-	const logout = () => {};
+	const logout = () => {
+		localStorage.removeItem("token");
+		localStorage.removeItem("username");
+		localStorage.removeItem("employeeId");
+	};
 
 	return (
 		<>

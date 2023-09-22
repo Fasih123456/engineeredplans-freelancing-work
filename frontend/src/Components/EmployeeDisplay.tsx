@@ -1,9 +1,9 @@
 //Library imports
 import { Table, Form, Button, Modal } from "react-bootstrap";
-import axios from "axios";
 //React imports
 import { useState, useEffect } from "react";
 import { serverRequest } from "../GlobalFunctions";
+import { toast } from "react-toastify";
 
 //Component imports
 
@@ -80,17 +80,21 @@ function EmployeeDisplay() {
 		setSelectedEmployee(employee);
 	};
 
-	//TODO: add valid toast for when employee is updated
 	const handleEditSaves = async () => {
-		console.log(newUserName);
 		try {
-			const response = serverRequest({
+			serverRequest({
 				method: "put",
 				url: `employees/${selectedEmployee?.employeeId}`,
 				data: {
 					username: newUserName,
 					employeeId: selectedEmployee?.employeeId,
 				},
+			}).then((response) => {
+				if (response.status == 204) {
+					toast.success("Employee Updated");
+				} else if (response.status == 404) {
+					toast.error("Server Error occurred, please contact admin");
+				}
 			});
 
 			setShowEditModal(false);
@@ -106,7 +110,6 @@ function EmployeeDisplay() {
 			url: "employees",
 		})
 			.then((response) => {
-				console.log(response);
 				setEmployees(
 					response.data.map((employee) => ({
 						employeeId: employee.employeeId,
@@ -119,16 +122,18 @@ function EmployeeDisplay() {
 			});
 	}, []);
 
-	//TODO: add toast for when employee is deleted
 	const handleDeleteEmployee = async (employeeId: string) => {
 		try {
-			const token = localStorage.getItem("token");
-
-			const response = serverRequest({
+			serverRequest({
 				method: "delete",
 				url: `employees/${employeeId}`,
 			}).then((response) => {
 				console.log(response);
+				if (response.status === 204) {
+					toast.success("Employee Deleted");
+				} else if (response.status === 404) {
+					toast.error("Server Error occurred, please contact admin");
+				}
 			});
 
 			setEmployees(

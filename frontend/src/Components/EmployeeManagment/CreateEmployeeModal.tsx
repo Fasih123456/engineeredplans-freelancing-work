@@ -69,6 +69,8 @@ function CreateEmployeeModal({
 			return;
 		}
 
+		toast.success(`Welcome to our Company ${name}!`);
+
 		onCreateEmployee({ name, password });
 		onHide();
 	};

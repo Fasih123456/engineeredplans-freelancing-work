@@ -12,7 +12,6 @@ import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
 import Projects from "./Pages/Projects";
 
-//TODO: Force react app to send you to login page if you dont have valid token
 function App() {
 	const token = localStorage.getItem("token");
 

@@ -15,13 +15,8 @@ import Projects from "./Pages/Projects";
 import { serverRequest } from "./GlobalFunctions";
 import { useEffect, useState } from "react";
 
-interface Privilege {
-	type: "admin" | "user";
-}
-
-//TODO: The privilege state is not setting properly
 function App() {
-	const [privilege, setPrivilege] = useState<Privilege>({ type: "user" });
+	const [privilege, setPrivilege] = useState("");
 	const token = localStorage.getItem("token");
 
 	useEffect(() => {
@@ -29,13 +24,11 @@ function App() {
 			method: "get",
 			url: `permission/${localStorage.getItem("employeeId")}`,
 		}).then((response) => {
-			//console.log(response.data[0]);
-			setPrivilege({
-				type: response.data[0].permissionType,
-			});
+			//console.log(response.data[0].permissionType);
+			setPrivilege(response.data[0].permissionType);
 
-			//console.log(privilege.type);
-			localStorage.setItem("permissionType", privilege.type);
+			//console.log(privilege);
+			localStorage.setItem("permissionType", privilege);
 			//console.log(localStorage.getItem("permissionType"));
 		});
 	}, []);
@@ -60,7 +53,9 @@ function App() {
 						<>
 							<Route
 								path="/"
-								element={<EmployeeTimeTracking />}
+								element={
+									<EmployeeTimeTracking plevel={privilege} />
+								}
 							/>
 							<Route
 								path="/projectmanage"

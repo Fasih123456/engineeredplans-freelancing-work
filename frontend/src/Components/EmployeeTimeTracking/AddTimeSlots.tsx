@@ -27,21 +27,22 @@ interface Projects {
 	projectName: string;
 }
 
-//TODO: Make this get projects from the database for the current user
-function addProjectLink(width: number) {
-	const privilege = localStorage.getItem("permissionType");
+function addProjectLink(width: number, plevel: string) {
+	const privilege = plevel;
 	const [projects, setProjects] = useState<Projects>([]);
+	const [selectedProject, setSelectedProject] = useState("");
 
 	useEffect(() => {
 		console.log(privilege);
 		//Admin privilege gets to view all projects
-		if (privilege === "admin") {
+		if (privilege == "admin") {
 			serverRequest({
 				method: "get",
 				url: `projects`,
 			}).then((response) => {
 				setProjects(response.data);
-				console.log(response);
+				//console.log(response);
+				//console.log(projects);
 			});
 		} else {
 			//User privilege gets to view only their projects
@@ -50,7 +51,7 @@ function addProjectLink(width: number) {
 				url: `projects/${localStorage.getItem("employeeId")}`,
 			}).then((response) => {
 				setProjects(response.data);
-				console.log(response.data);
+				//console.log(response.data);
 			});
 		}
 	}, []);
@@ -58,19 +59,32 @@ function addProjectLink(width: number) {
 	return (
 		<Col xs={width} className="time-slots-col add-project-link-div">
 			<Dropdown>
-				<Dropdown.Toggle id="project-dropdown">Project</Dropdown.Toggle>
+				<Dropdown.Toggle id="project-dropdown">
+					{selectedProject || "Your Projects"}
+				</Dropdown.Toggle>
 
 				<Dropdown.Menu>
-					<Dropdown.Item href="#project1">Project 1</Dropdown.Item>
-					<Dropdown.Item href="#project2">Project 2</Dropdown.Item>
-					<Dropdown.Item href="#project3">Project 3</Dropdown.Item>
+					{projects.map((project) => (
+						<Dropdown.Item
+							key={project.projectId}
+							onClick={() =>
+								setSelectedProject(project.project_name)
+							}
+						>
+							{project.project_name}
+						</Dropdown.Item>
+					))}
 				</Dropdown.Menu>
 			</Dropdown>
 		</Col>
 	);
 }
 
-function AddTimeSlots() {
+interface AddTimeSlotsProps {
+	plevel: string;
+}
+
+function AddTimeSlots(props: AddTimeSlotsProps) {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const [showStopWatch, setShowStopWatch] = useState(true);
 	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
@@ -266,7 +280,9 @@ function AddTimeSlots() {
 					? upperAddTimeSlots(8)
 					: upperAddTimeSlots(4)}
 
-				{windowWidth <= 768 ? addProjectLink(4) : addProjectLink(4)}
+				{windowWidth <= 768
+					? addProjectLink(4, props.plevel)
+					: addProjectLink(4, props.plevel)}
 
 				{windowWidth > 768 && timeSlotsDesktopView(4)}
 			</Row>

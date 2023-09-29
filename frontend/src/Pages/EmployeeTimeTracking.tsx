@@ -7,7 +7,11 @@ import Menu from "../Components/Menu";
 import AddTimeSlots from "../Components/EmployeeTimeTracking/AddTimeSlots";
 import AllInstanceSummary from "../Components/EmployeeTimeTracking/AllInstanceSummary";
 
-function EmployeeTimeTracking() {
+interface EmployeeTimeTrackingProps {
+	plevel: string;
+}
+
+function EmployeeTimeTracking(props: EmployeeTimeTrackingProps) {
 	return (
 		<>
 			<Header />
@@ -18,7 +22,7 @@ function EmployeeTimeTracking() {
 					</Col>
 					<Col xs={10}>
 						<Container className="wrapper">
-							<AddTimeSlots />
+							<AddTimeSlots plevel={props.plevel} />
 							<AllInstanceSummary />
 						</Container>
 					</Col>

@@ -1,25 +1,15 @@
 //Library imports
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { serverRequest } from "../GlobalFunctions";
 
 interface Privilege {
 	type: "admin" | "user";
 }
 
 function Menu() {
-	const [privilege, setPrivilege] = useState<Privilege>({ type: "user" });
-
-	useEffect(() => {
-		serverRequest({
-			method: "get",
-			url: `permission/${localStorage.getItem("employeeId")}`,
-		}).then((response) => {
-			setPrivilege({
-				type: response.data[0].permissionType,
-			});
-		});
-	}, []);
+	const [privilege] = useState<Privilege>({
+		type: localStorage.getItem("permissionType") as "admin" | "user",
+	});
 
 	return (
 		<Container className="menu-left">
@@ -43,7 +33,7 @@ function Menu() {
 				</Row>
 			</div>
 
-			{privilege.type === "admin" && (
+			{localStorage.getItem("permissionType") && (
 				<div className="each-menu-section">
 					<h2 className="menu-section-heading">Admin Panel</h2>
 					<Row className="each-menu-row">

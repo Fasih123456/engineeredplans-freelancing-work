@@ -10,6 +10,9 @@ interface Project {
 	employeeIds: string;
 }
 
+//TODO: Make the Option section have icons eye and trash can
+//TODO: Add option to add new project
+
 function ProjectDisplay() {
 	const [projects, setProjects] = useState<Project[]>([]);
 

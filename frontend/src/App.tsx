@@ -12,8 +12,32 @@ import EmployeeTimeTracking from "./Pages/EmployeeTimeTracking";
 import ProjectManagement from "./Pages/Admin/ProjectManagement";
 import Projects from "./Pages/Projects";
 
+import { serverRequest } from "./GlobalFunctions";
+import { useEffect, useState } from "react";
+
+interface Privilege {
+	type: "admin" | "user";
+}
+
 function App() {
+	const [privilege, setPrivilege] = useState<Privilege>({ type: "user" });
 	const token = localStorage.getItem("token");
+
+	useEffect(() => {
+		serverRequest({
+			method: "get",
+			url: `permission/${localStorage.getItem("employeeId")}`,
+		}).then((response) => {
+			//console.log(response.data[0]);
+			setPrivilege({
+				type: response.data[0].permissionType,
+			});
+
+			//console.log(privilege.type);
+			localStorage.setItem("permissionType", privilege.type);
+			//console.log(localStorage.getItem("permissionType"));
+		});
+	}, []);
 
 	return (
 		<>

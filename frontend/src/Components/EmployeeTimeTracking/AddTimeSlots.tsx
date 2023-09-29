@@ -1,5 +1,6 @@
 //React imports
 import { useState, useEffect } from "react";
+import { serverRequest } from "../../GlobalFunctions";
 
 //Component Imports
 import StopWatch from "./StopWatch/StopWatch";
@@ -21,7 +22,37 @@ function upperAddTimeSlots(width: number) {
 	);
 }
 
+interface Projects {
+	projectId: number;
+	projectName: string;
+}
+
 function addProjectLink(width: number) {
+	const privilege = localStorage.getItem("permissionType");
+	const [projects, setProjects] = useState<Projects>([]);
+
+	useEffect(() => {
+		//Admin privilege gets to view all projects
+		if (privilege === "admin") {
+			serverRequest({
+				method: "get",
+				url: `projects`,
+			}).then((response) => {
+				setProjects(response.data);
+				console.log(response);
+			});
+		} else {
+			//User privilege gets to view only their projects
+			serverRequest({
+				method: "get",
+				url: `projects/${localStorage.getItem("employeeId")}`,
+			}).then((response) => {
+				setProjects(response.data);
+				console.log(projects);
+			});
+		}
+	}, []);
+
 	return (
 		<Col xs={width} className="time-slots-col add-project-link-div">
 			<Dropdown>

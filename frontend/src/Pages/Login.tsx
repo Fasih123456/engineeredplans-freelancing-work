@@ -8,6 +8,7 @@ import loginImg from "../assets/images/login-image.webp";
 import axios from "axios";
 
 //TODO: make the login suggestions pop up correctly
+//TODO: Fix the bug where the login page does not redirect to the home page after logging in
 function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");

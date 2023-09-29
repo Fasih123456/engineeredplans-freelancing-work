@@ -24,11 +24,11 @@ router.get("/", authenticate, async (req, res) => {
 	}
 });
 
-// GET /projects/:projectId
-router.get("/:projectId", authenticate, async (req, res) => {
+// GET /projects/:employeeId
+router.get("/:employeeId", authenticate, async (req, res) => {
 	try {
 		console.log(req.params.projectId);
-		const project = await Project.findById(req.params.projectId);
+		const project = await Project.findByEmployeeId(req.params.projectId);
 		if (project) {
 			res.json(project);
 		} else {

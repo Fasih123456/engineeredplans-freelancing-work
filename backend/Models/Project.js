@@ -89,6 +89,28 @@ class Project {
 		}
 	}
 
+	async findByEmployeeId(employeeId) {
+		try {
+			const request = pool.request();
+			request.input("employeeId", dataTypes.employeeId, employeeId);
+			const result = await request.query(`
+				SELECT * FROM project
+				WHERE employeeIds LIKE '%${employeeId}%'
+			`);
+			return result.recordset.map(
+				({ projectId, project_name, employeeIds }) =>
+					new Project(
+						projectId,
+						project_name,
+						JSON.parse(employeeIds)
+					)
+			);
+		} catch {
+			console.error(err);
+			return [];
+		}
+	}
+
 	async update() {
 		try {
 			const request = pool.request();
@@ -109,6 +131,7 @@ class Project {
         WHERE projectId = @projectId
       `);
 		} catch (err) {
+			res.status("500");
 			console.error(err);
 		}
 	}

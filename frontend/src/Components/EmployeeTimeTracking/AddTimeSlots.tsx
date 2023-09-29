@@ -10,6 +10,7 @@ import ManualTimeEntry from "./StopWatch/ManualTimeEntry";
 import { Col, Container, Row, Dropdown } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 
+//This function displays the text area for the user to enter the task they are working on, extracted so we can have dynamic width
 function upperAddTimeSlots(width: number) {
 	return (
 		<Col xs={width} className="time-slots-col">
@@ -27,6 +28,7 @@ interface Projects {
 	projectName: string;
 }
 
+//This function handles the projects displayed in the dropdown
 function addProjectLink(width: number, plevel: string) {
 	const privilege = plevel;
 	const [projects, setProjects] = useState<Projects>([]);
@@ -92,31 +94,82 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 	const [isPaused, setIsPaused] = useState(true);
 	const [time, setTime] = useState(0);
 
-	const handlePlayIconClick = () => {
-		setIsActive(true);
-		setIsPaused(false);
+	//This function handles the function of each icon
+	const handleIconClick = (type: string) => {
+		switch (type) {
+			case "play":
+				setIsActive(true);
+				setIsPaused(false);
+				break;
+			case "stop":
+				setIsActive(false);
+				setIsPaused(true);
+				setTime(0);
+				break;
+			case "clock":
+				setShowStopWatch(true);
+				setShowManualTimeEntry(false);
+				break;
+			case "bars":
+				setShowManualTimeEntry(true);
+				setShowStopWatch(false);
+				break;
+			default:
+				break;
+		}
 	};
 
-	const handleStopIconClick = () => {
-		setIsActive(false);
-		setIsPaused(true);
-		setTime(0);
-	};
+	//This function handles the display of the icons
+	function handleIconDisplay() {
+		return (
+			<>
+				<Row className="add-time-icons">
+					{showManualTimeEntry && (
+						<i
+							className="fa-solid fa-clock"
+							onClick={handleIconClick.bind(null, "clock")}
+						></i>
+					)}
+				</Row>
 
-	const addManualEntry = () => {
-		setShowManualTimeEntry(true);
-		setShowStopWatch(false);
-	};
+				<Row className="add-time-icons">
+					{showStopWatch && !isActive && (
+						<i
+							className="fa-solid fa-bars"
+							onClick={handleIconClick.bind(null, "bars")}
+						></i>
+					)}
+				</Row>
 
-	const handleClockIconClick = () => {
-		setShowStopWatch(true);
-		setShowManualTimeEntry(false);
-	};
+				<Row className="add-time-icons">
+					{showStopWatch && !isActive && (
+						<i
+							className="fa-solid fa-play"
+							onClick={handleIconClick.bind(null, "play")}
+						></i>
+					)}
+				</Row>
 
-	const handleBarsIconClick = () => {
-		setShowManualTimeEntry(true);
-		setShowStopWatch(false);
-	};
+				<Row className="add-time-icons">
+					{showStopWatch && isActive && (
+						<i
+							className="fa-solid fa-stop"
+							onClick={handleIconClick.bind(null, "stop")}
+						></i>
+					)}
+				</Row>
+
+				<Row className="add-time-icons">
+					{showManualTimeEntry && (
+						<i
+							className="fa-solid fa-plus"
+							onClick={handleIconClick.bind(null, "plus")}
+						></i>
+					)}
+				</Row>
+			</>
+		);
+	}
 
 	useEffect(() => {
 		function handleResize() {
@@ -149,50 +202,7 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 						{showManualTimeEntry && <ManualTimeEntry />}
 					</Col>
 					<Col xs={4} className="add-time-icons-col">
-						<Row className="add-time-icons">
-							{showManualTimeEntry && (
-								<i
-									className="fa-solid fa-clock"
-									onClick={handleClockIconClick}
-								></i>
-							)}
-						</Row>
-
-						<Row className="add-time-icons">
-							{showStopWatch && !isActive && (
-								<i
-									className="fa-solid fa-bars"
-									onClick={handleBarsIconClick}
-								></i>
-							)}
-						</Row>
-
-						<Row className="add-time-icons">
-							{showStopWatch && !isActive && (
-								<i
-									className="fa-solid fa-play"
-									onClick={handlePlayIconClick}
-								></i>
-							)}
-						</Row>
-
-						<Row className="add-time-icons">
-							{showStopWatch && isActive && (
-								<i
-									className="fa-solid fa-stop"
-									onClick={handleStopIconClick}
-								></i>
-							)}
-						</Row>
-
-						<Row className="add-time-icons">
-							{showManualTimeEntry && (
-								<i
-									className="fa-solid fa-plus"
-									onClick={addManualEntry}
-								></i>
-							)}
-						</Row>
+						{handleIconDisplay()}
 					</Col>
 				</Row>
 			</Col>
@@ -221,46 +231,7 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 						{showManualTimeEntry && <ManualTimeEntry />}
 					</Col>
 					<Col xs={4} className="add-time-icons-col">
-						<div className="add-time-icons">
-							{showStopWatch && !isActive && (
-								<i
-									className="fa-solid fa-play"
-									onClick={handlePlayIconClick}
-								></i>
-							)}
-						</div>
-						<div className="add-time-icons">
-							{showStopWatch && isActive && (
-								<i
-									className="fa-solid fa-stop"
-									onClick={handleStopIconClick}
-								></i>
-							)}
-						</div>
-						<div className="add-time-icons">
-							{showManualTimeEntry && (
-								<i
-									className="fa-solid fa-clock"
-									onClick={handleClockIconClick}
-								></i>
-							)}
-						</div>
-						<div className="add-time-icons">
-							{showStopWatch && !isActive && (
-								<i
-									className="fa-solid fa-bars"
-									onClick={handleBarsIconClick}
-								></i>
-							)}
-						</div>
-						<div className="add-time-icons">
-							{showManualTimeEntry && (
-								<i
-									className="fa-solid fa-plus"
-									onClick={addManualEntry}
-								></i>
-							)}
-						</div>
+						{handleIconDisplay()}
 					</Col>
 				</Row>
 			</>
@@ -281,10 +252,10 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 					: upperAddTimeSlots(4)}
 
 				{windowWidth <= 768
-					? addProjectLink(4, props.plevel)
-					: addProjectLink(4, props.plevel)}
+					? addProjectLink(3, props.plevel)
+					: addProjectLink(3, props.plevel)}
 
-				{windowWidth > 768 && timeSlotsDesktopView(4)}
+				{windowWidth > 768 && timeSlotsDesktopView(5)}
 			</Row>
 			{windowWidth <= 768 && timeSlotsMobileView()}
 		</Container>

@@ -89,7 +89,7 @@ class Project {
 		}
 	}
 
-	async findByEmployeeId(employeeId) {
+	static async findByEmployeeId(employeeId) {
 		try {
 			const request = pool.request();
 			request.input("employeeId", dataTypes.employeeId, employeeId);

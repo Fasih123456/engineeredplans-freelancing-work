@@ -19,6 +19,7 @@ interface Privilege {
 	type: "admin" | "user";
 }
 
+//TODO: The privilege state is not setting properly
 function App() {
 	const [privilege, setPrivilege] = useState<Privilege>({ type: "user" });
 	const token = localStorage.getItem("token");

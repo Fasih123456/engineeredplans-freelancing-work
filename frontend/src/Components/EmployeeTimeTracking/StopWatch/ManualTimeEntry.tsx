@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
+//TODO: Make the manual time entry show the time as well
+//TODO: The CSS for this is broken
 function ManualTimeEntry() {
 	const [startDate, setStartDate] = useState<Date | null>(new Date());
 

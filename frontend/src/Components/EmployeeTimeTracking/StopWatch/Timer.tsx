@@ -1,3 +1,4 @@
+//TODO: Make the timer have a different color theme when active
 export default function Timer(props: { time: number }) {
 	return (
 		<div className="timer centered-div">

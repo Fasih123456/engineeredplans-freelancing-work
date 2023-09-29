@@ -27,11 +27,13 @@ interface Projects {
 	projectName: string;
 }
 
+//TODO: Make this get projects from the database for the current user
 function addProjectLink(width: number) {
 	const privilege = localStorage.getItem("permissionType");
 	const [projects, setProjects] = useState<Projects>([]);
 
 	useEffect(() => {
+		console.log(privilege);
 		//Admin privilege gets to view all projects
 		if (privilege === "admin") {
 			serverRequest({
@@ -48,7 +50,7 @@ function addProjectLink(width: number) {
 				url: `projects/${localStorage.getItem("employeeId")}`,
 			}).then((response) => {
 				setProjects(response.data);
-				console.log(projects);
+				console.log(response.data);
 			});
 		}
 	}, []);

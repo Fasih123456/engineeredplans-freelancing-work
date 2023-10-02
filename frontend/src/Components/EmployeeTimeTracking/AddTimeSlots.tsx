@@ -23,16 +23,24 @@ interface AddTimeSlotsProps {
 }
 
 function AddTimeSlots(props: AddTimeSlotsProps) {
-	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-	const [showStopWatch, setShowStopWatch] = useState(true);
-	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
+	//Status States
 	const [isActive, setIsActive] = useState(false);
 	const [isPaused, setIsPaused] = useState(true);
-	const [time, setTime] = useState(0);
+
+	//Infomration States
 	const [task, setTask] = useState("");
 	const [projects, setProjects] = useState<Projects>([]);
 	const [selectedProject, setSelectedProject] = useState("");
 	const [selectProjectId, setSelectProjectId] = useState(0);
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const [showStopWatch, setShowStopWatch] = useState(true);
+	const [showManualTimeEntry, setShowManualTimeEntry] = useState(false);
+
+	//Time States
+	const [time, setTime] = useState(0);
+	const [date, setDate] = useState("");
+
+	console.log(time, date);
 
 	function upperAddTimeSlots(width: number) {
 		return (
@@ -81,6 +89,9 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 				setShowManualTimeEntry(true);
 				setShowStopWatch(false);
 				break;
+			case "plus":
+				handleManualTimeEntry();
+				break;
 			default:
 				break;
 		}
@@ -89,10 +100,10 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 	//Will be called when the user clicks the play button, will return -1 on error
 	function handlePlay() {
 		if (selectedProject == "") {
-			toast.error("Please select a project");
+			toast.warning("Please select a Project");
 			return -1;
 		} else if (task == "") {
-			toast.error("Please enter a task");
+			toast.warning("Please enter a Task");
 			return -1;
 		}
 
@@ -104,7 +115,6 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 		const project = selectedProject;
 		const taskName = task;
 		const timeSpent = time;
-		const date = new Date().toISOString().slice(0, 10);
 
 		console.log(project, taskName, timeSpent, date);
 
@@ -114,16 +124,49 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 			data: {
 				employeeId: localStorage.getItem("employeeId"),
 				projectId: selectProjectId,
-				projectName: project,
-				taskName: taskName,
 				time: Math.floor(timeSpent / 1000),
 				date: date,
 			},
 		}).then((response) => {
-			console.log(response);
+			if (response.status == 201) {
+				toast.success("Time Entry added!");
+			} else if (response.status == 500) {
+				toast.error("Server Error has occurred, contact admin");
+			}
 		});
 	}
 
+	function handleManualTimeEntry() {
+		const project = selectedProject;
+		const timeSpent = time;
+		console.log(project, timeSpent, date);
+
+		let status = handlePlay(); //making sure all fields are selected
+
+		if (status == -1) {
+			return;
+		}
+
+		console.log(status);
+		serverRequest({
+			method: "post",
+			url: `tasks`,
+			data: {
+				employeeId: localStorage.getItem("employeeId"),
+				projectId: selectProjectId,
+				time: timeSpent,
+				date: date, // Fixed syntax
+			},
+		}).then((response) => {
+			if (response.status === 201) {
+				// Fixed syntax
+				toast.success("Time Entry added!");
+			} else if (response.status === 500) {
+				// Fixed syntax
+				toast.error("Server Error has occurred, contact admin");
+			}
+		});
+	}
 	//This function handles the display of the icons
 	function handleIconDisplay() {
 		return (
@@ -204,7 +247,14 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 								setTime={setTime}
 							/>
 						)}
-						{showManualTimeEntry && <ManualTimeEntry />}
+						{showManualTimeEntry && (
+							<ManualTimeEntry
+								setDate={setDate}
+								setTime={setTime}
+								time={time}
+								date={date}
+							/>
+						)}
 					</Col>
 					<Col xs={4} className="add-time-icons-col">
 						{handleIconDisplay()}
@@ -233,7 +283,14 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 								setTime={setTime}
 							/>
 						)}
-						{showManualTimeEntry && <ManualTimeEntry />}
+						{showManualTimeEntry && (
+							<ManualTimeEntry
+								setDate={setDate}
+								setTime={setTime}
+								time={time}
+								date={date}
+							/>
+						)}
 					</Col>
 					<Col xs={4} className="add-time-icons-col">
 						{handleIconDisplay()}

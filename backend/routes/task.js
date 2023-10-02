@@ -36,7 +36,7 @@ router.post("/", authenticate, async (req, res) => {
 		const { employeeId, projectId, date, time } = req.body;
 		const task = new Task(null, employeeId, projectId, date, time);
 		await task.save();
-		res.json(task);
+		res.status(201).json(task); // Combined response
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(500);

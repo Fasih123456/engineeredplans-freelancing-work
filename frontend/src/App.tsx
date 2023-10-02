@@ -36,16 +36,15 @@ function App() {
 	return (
 		<>
 			<ToastContainer
-				position="bottom-right"
-				autoClose={5000}
+				position="top-left"
+				autoClose={3000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
 				rtl={false}
-				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				theme="light"
+				theme="dark"
 			/>
 			<BrowserRouter>
 				<Routes>

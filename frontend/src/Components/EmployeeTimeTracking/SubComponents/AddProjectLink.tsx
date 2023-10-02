@@ -15,6 +15,7 @@ interface AddProjectLinkProps {
 
 function AddProjectLink(props: AddProjectLinkProps) {
 	const privilege = props.plevel;
+
 	useEffect(() => {
 		//Admin privilege gets to view all projects
 		if (privilege == "admin") {

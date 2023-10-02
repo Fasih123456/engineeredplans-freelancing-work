@@ -14,6 +14,7 @@ type StopWatchProps = {
 function StopWatch({ isActive, isPaused, time, setTime }: StopWatchProps) {
 	useEffect(() => {
 		let interval: number = 0;
+		console.log(time);
 
 		if (isActive && isPaused === false) {
 			interval = setInterval(() => {
@@ -25,7 +26,7 @@ function StopWatch({ isActive, isPaused, time, setTime }: StopWatchProps) {
 		return () => {
 			clearInterval(interval);
 		};
-	}, [isActive, isPaused]);
+	}, [isActive, isPaused, time]);
 
 	return (
 		<>

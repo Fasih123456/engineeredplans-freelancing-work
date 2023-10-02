@@ -32,8 +32,9 @@ router.get("/:taskId", authenticate, async (req, res) => {
 // POST /tasks
 router.post("/", authenticate, async (req, res) => {
 	try {
-		const { employeeId, projectId } = req.body;
-		const task = new Task(null, employeeId, projectId);
+		console.log(req.body);
+		const { employeeId, projectId, date, time } = req.body;
+		const task = new Task(null, employeeId, projectId, date, time);
 		await task.save();
 		res.json(task);
 	} catch (err) {

@@ -29,8 +29,8 @@ class Task {
 			request.input("taskId", dataTypes.taskId, this.taskId);
 			request.input("employeeId", dataTypes.employeeId, this.employeeId);
 			request.input("projectId", dataTypes.projectId, this.projectId);
-			request.input("date", dataTypes.date, this.date);
-			request.input("time", dataTypes.time, this.time);
+			request.input("date", sql.Date, this.date);
+			request.input("time", sql.Int, this.time);
 			await request.query(`
       INSERT INTO task (taskId, employeeId, projectId, date, time)
       VALUES (@taskId, @employeeId, @projectId, @date, @time)

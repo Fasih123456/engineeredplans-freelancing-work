@@ -7,79 +7,15 @@ import StopWatch from "./StopWatch/StopWatch";
 import ManualTimeEntry from "./StopWatch/ManualTimeEntry";
 
 //Library imports
-import { Col, Container, Row, Dropdown } from "react-bootstrap";
+import { Col, Container, Row, Dropdown, Toast } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { toast } from "react-toastify";
+import AddProjectLink from "./SubComponents/AddProjectLink";
 //This function displays the text area for the user to enter the task they are working on, extracted so we can have dynamic width
-function upperAddTimeSlots(width: number) {
-	return (
-		<Col xs={width} className="time-slots-col">
-			<input
-				className="add-time-slot-heading"
-				type="text"
-				placeholder="What are you hustling on?"
-			/>
-		</Col>
-	);
-}
 
 interface Projects {
 	projectId: number;
 	projectName: string;
-}
-
-//This function handles the projects displayed in the dropdown
-function addProjectLink(width: number, plevel: string) {
-	const privilege = plevel;
-	const [projects, setProjects] = useState<Projects>([]);
-	const [selectedProject, setSelectedProject] = useState("");
-
-	useEffect(() => {
-		console.log(privilege);
-		//Admin privilege gets to view all projects
-		if (privilege == "admin") {
-			serverRequest({
-				method: "get",
-				url: `projects`,
-			}).then((response) => {
-				setProjects(response.data);
-				//console.log(response);
-				//console.log(projects);
-			});
-		} else {
-			//User privilege gets to view only their projects
-			serverRequest({
-				method: "get",
-				url: `projects/${localStorage.getItem("employeeId")}`,
-			}).then((response) => {
-				setProjects(response.data);
-				//console.log(response.data);
-			});
-		}
-	}, []);
-
-	return (
-		<Col xs={width} className="time-slots-col add-project-link-div">
-			<Dropdown>
-				<Dropdown.Toggle id="project-dropdown">
-					{selectedProject || "Your Projects"}
-				</Dropdown.Toggle>
-
-				<Dropdown.Menu>
-					{projects.map((project) => (
-						<Dropdown.Item
-							key={project.projectId}
-							onClick={() =>
-								setSelectedProject(project.project_name)
-							}
-						>
-							{project.project_name}
-						</Dropdown.Item>
-					))}
-				</Dropdown.Menu>
-			</Dropdown>
-		</Col>
-	);
 }
 
 interface AddTimeSlotsProps {
@@ -93,15 +29,46 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 	const [isActive, setIsActive] = useState(false);
 	const [isPaused, setIsPaused] = useState(true);
 	const [time, setTime] = useState(0);
+	const [task, setTask] = useState("");
+	const [projects, setProjects] = useState<Projects>([]);
+	const [selectedProject, setSelectedProject] = useState("");
+	const [selectProjectId, setSelectProjectId] = useState(0);
+
+	function upperAddTimeSlots(width: number) {
+		return (
+			<Col xs={width} className="time-slots-col">
+				{isActive ? (
+					<input
+						className="add-time-slot-heading"
+						type="text"
+						placeholder="What are you hustling on?"
+						onChange={(e) => setTask(e.target.value)}
+						disabled
+					/>
+				) : (
+					<input
+						className="add-time-slot-heading"
+						type="text"
+						placeholder="What are you hustling on?"
+						onChange={(e) => setTask(e.target.value)}
+					/>
+				)}
+			</Col>
+		);
+	}
 
 	//This function handles the function of each icon
 	const handleIconClick = (type: string) => {
 		switch (type) {
 			case "play":
+				if (handlePlay() == -1) {
+					break;
+				}
 				setIsActive(true);
 				setIsPaused(false);
 				break;
 			case "stop":
+				handleStop();
 				setIsActive(false);
 				setIsPaused(true);
 				setTime(0);
@@ -118,6 +85,44 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 				break;
 		}
 	};
+
+	//Will be called when the user clicks the play button, will return -1 on error
+	function handlePlay() {
+		if (selectedProject == "") {
+			toast.error("Please select a project");
+			return -1;
+		} else if (task == "") {
+			toast.error("Please enter a task");
+			return -1;
+		}
+
+		toast.success("Timer started");
+		return 1;
+	}
+
+	function handleStop() {
+		const project = selectedProject;
+		const taskName = task;
+		const timeSpent = time;
+		const date = new Date().toISOString().slice(0, 10);
+
+		console.log(project, taskName, timeSpent, date);
+
+		serverRequest({
+			method: "post",
+			url: `tasks`,
+			data: {
+				employeeId: localStorage.getItem("employeeId"),
+				projectId: selectProjectId,
+				projectName: project,
+				taskName: taskName,
+				time: Math.floor(timeSpent / 1000),
+				date: date,
+			},
+		}).then((response) => {
+			console.log(response);
+		});
+	}
 
 	//This function handles the display of the icons
 	function handleIconDisplay() {
@@ -251,9 +256,29 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 					? upperAddTimeSlots(8)
 					: upperAddTimeSlots(4)}
 
-				{windowWidth <= 768
-					? addProjectLink(3, props.plevel)
-					: addProjectLink(3, props.plevel)}
+				{windowWidth <= 768 ? (
+					<AddProjectLink
+						width={3}
+						plevel={props.plevel}
+						setProjects={setProjects}
+						isActive={isActive}
+						setSelectProjectId={setSelectProjectId}
+						setSelectedProject={setSelectedProject}
+						selectedProject={selectedProject}
+						projects={projects}
+					/>
+				) : (
+					<AddProjectLink
+						width={3}
+						plevel={props.plevel}
+						setProjects={setProjects}
+						isActive={isActive}
+						setSelectProjectId={setSelectProjectId}
+						setSelectedProject={setSelectedProject}
+						selectedProject={selectedProject}
+						projects={projects}
+					/>
+				)}
 
 				{windowWidth > 768 && timeSlotsDesktopView(5)}
 			</Row>

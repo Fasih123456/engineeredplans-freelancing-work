@@ -30,6 +30,24 @@ router.get("/:employeeId", authenticate, async (req, res) => {
 	}
 });
 
+router.get("/:employeeId/:projectId", authenticate, async (req, res) => {
+	try {
+		const task = await Task.findByTaskId(
+			req.params.employeeId,
+			req.params.projectId
+		);
+		console.log("task", task);
+		if (task) {
+			res.status(200).json(task);
+		} else {
+			res.sendStatus(404);
+		}
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(500);
+	}
+});
+
 // POST /tasks
 router.post("/", authenticate, async (req, res) => {
 	try {

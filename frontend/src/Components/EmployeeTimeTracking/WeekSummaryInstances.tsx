@@ -1,11 +1,10 @@
 //Component imports
 import EachInstance from "./EachInstance";
 //React imports
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 //Library imports
 import { Col, Container, Row } from "react-bootstrap";
-import { serverRequest } from "../../GlobalFunctions";
 
 interface AllInstanceSummaryProps {
 	taskId: string;
@@ -15,8 +14,10 @@ interface AllInstanceSummaryProps {
 	time: number;
 }
 
-function InstanceCard(props: { task: AllInstanceSummaryProps }) {
+function InstanceCard(props: { task: AllInstanceSummaryProps[] }) {
 	const [showEachInstance, setShowEachInstance] = useState(false);
+
+	//console.log(props);
 
 	const handleCurrentInstancesClick = () => {
 		setShowEachInstance(!showEachInstance);
@@ -41,17 +42,19 @@ function InstanceCard(props: { task: AllInstanceSummaryProps }) {
 						className="current-instances"
 						onClick={handleCurrentInstancesClick}
 					>
-						2
+						{props.task.length}
 					</span>
-					<p className="summary-task-name">{props.task.projectId}</p>
+					<p className="summary-task-name">
+						{props.task[0].projectId}
+					</p>
 				</Col>
 				<Col xs={3} className="summa ry-task-container-body-col2">
 					<p className="summary-task-duration time-display">
-						{formatTime(props.task.time)}
+						{formatTime(props.task[0].time)}
 					</p>
 				</Col>
 			</Row>
-			{showEachInstance && <EachInstance />}
+			{showEachInstance && <EachInstance task={props.task} />}
 		</>
 	);
 }
@@ -60,9 +63,37 @@ interface WeekSummaryInstancesProps {
 	tasks: AllInstanceSummaryProps[]; // Assuming you have the AllInstanceSummaryProps type defined
 }
 
+interface Task {
+	taskId: string;
+	employeeId: string;
+	projectId: string;
+	date: string;
+	time: number;
+}
+
+interface Props {
+	tasks: Task[];
+}
+
 //This component renders each instance of tasks for the week
 function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 	const { tasks } = props;
+	const filteredTasks: Record<string, Task[]> = {};
+
+	for (const item of props.tasks) {
+		const projectId = item.projectId;
+
+		// If an array is not present for this projectId, create one
+		if (!filteredTasks[projectId]) {
+			filteredTasks[projectId] = [];
+		}
+
+		filteredTasks[projectId].push(item);
+	}
+
+	const result = Object.values(filteredTasks);
+
+	//console.log(result);
 
 	// Group tasks by date
 	const tasksByDate: Record<string, AllInstanceSummaryProps[]> = {};
@@ -90,11 +121,21 @@ function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 
 	//console.log(tasksByDate);
 
+	let taskList: AllInstanceSummaryProps[] = [];
+	let instanceCards: JSX.Element[] = [];
+
+	for (let i = 0; i < result.length; i++) {
+		const task = result[i];
+		//console.log(task);
+		//console.log(task.length);
+		instanceCards.push(<InstanceCard key={task[0].taskId} task={task} />);
+	}
+
 	return (
 		<>
 			<div style={{ maxHeight: "70vh", overflowY: "auto" }}>
-				{/* You can adjust the maxHeight value to your preference */}
 				<Container className="all-instance-summary">
+					{/* Main Body for each instance to be rendered */}
 					{Object.entries(tasksByDate).map(([date, taskList]) => (
 						<div key={date}>
 							<Row className="summary-task-container-heading">
@@ -113,9 +154,7 @@ function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 								</Col>
 							</Row>
 							{/* Render task details for this date */}
-							{taskList.map((task) => (
-								<InstanceCard key={task.taskId} task={task} />
-							))}
+							{instanceCards}
 						</div>
 					))}
 				</Container>

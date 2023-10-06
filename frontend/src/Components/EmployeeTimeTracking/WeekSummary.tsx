@@ -7,7 +7,7 @@ interface WeekSummaryProps {
 }
 
 function WeekSummary(props: WeekSummaryProps) {
-	console.log(props);
+	//console.log(props);
 
 	const newTime = secondsToHMS(props.TotalTime);
 
@@ -23,28 +23,6 @@ function WeekSummary(props: WeekSummaryProps) {
 
 	// TypeScript types
 	type ISODateString = string;
-
-	interface DateRange {
-		start: ISODateString;
-		end: ISODateString;
-	}
-
-	// Function to get the week number for a given date
-	function getWeekNumber(date: Date): number {
-		const d = new Date(date);
-		d.setHours(0, 0, 0, 0);
-		const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
-		const daysToThursday = 3 - ((d.getDay() + 6) % 7); // Days until Thursday (0-based)
-
-		const week1 = new Date(d.getFullYear(), 0, 4);
-		week1.setHours(0, 0, 0, 0);
-
-		const daysBetween =
-			(d.getTime() - week1.getTime()) / millisecondsPerDay;
-		const weekNumber = Math.ceil((daysBetween + daysToThursday) / 7);
-
-		return weekNumber;
-	}
 
 	// Function to get the start of the week for a given date
 	function getStartOfWeek(date: Date): Date {

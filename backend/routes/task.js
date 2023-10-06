@@ -15,11 +15,12 @@ router.get("/", authenticate, async (req, res) => {
 });
 
 // GET /tasks/:taskId
-router.get("/:taskId", authenticate, async (req, res) => {
+router.get("/:employeeId", authenticate, async (req, res) => {
 	try {
-		const task = await Task.findById(req.params.taskId);
+		const task = await Task.findByEmployeeId(req.params.employeeId);
+		console.log("task", task);
 		if (task) {
-			res.json(task);
+			res.status(200).json(task);
 		} else {
 			res.sendStatus(404);
 		}

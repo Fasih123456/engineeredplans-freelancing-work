@@ -239,6 +239,7 @@ a:hover {
 	position: fixed;
 	left: 16.67%;
 	top: 140px;
+	overflow-y: auto;
 }
 
 .summary-task-name {

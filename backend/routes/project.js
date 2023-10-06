@@ -27,8 +27,9 @@ router.get("/", authenticate, async (req, res) => {
 // GET /projects/:employeeId
 router.get("/:employeeId", authenticate, async (req, res) => {
 	try {
-		console.log(req.params.projectId);
-		const project = await Project.findByEmployeeId(req.params.projectId);
+		console.log(req.params);
+		const project = await Project.findByEmployeeId(req.params.employeeId);
+		console.log("project", project);
 		if (project) {
 			res.json(project);
 		} else {

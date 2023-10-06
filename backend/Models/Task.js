@@ -46,8 +46,8 @@ class Task {
 			request.input("taskId", dataTypes.taskId, this.taskId);
 			request.input("employeeId", dataTypes.employeeId, this.employeeId);
 			request.input("projectId", dataTypes.projectId, this.projectId);
-			request.input("date", dataTypes.date, this.date);
-			request.input("time", dataTypes.time, this.time);
+			request.input("date", sql.Date, this.date);
+			request.input("time", sql.Int, this.time);
 			await request.query(`
       UPDATE task
       SET employeeId = @employeeId, projectId = @projectId, date = @date, time = @time
@@ -104,6 +104,27 @@ class Task {
 				({ taskId, employeeId, projectId, date, time }) =>
 					new Task(taskId, employeeId, projectId, date, time)
 			);
+		} catch (err) {
+			console.error(err);
+			return [];
+		}
+	}
+
+	static async findByEmployeeId(employeeId) {
+		try {
+			const request = pool.request();
+			request.input("employeeId", dataTypes.employeeId, employeeId);
+			const result = await request.query(`
+      SELECT taskId FROM task
+      WHERE employeeId = @employeeId
+    `);
+
+			const taskIds = result.recordset.map(({ taskId }) => taskId);
+			const tasks = await Promise.all(
+				taskIds.map((taskId) => Task.findById(taskId))
+			);
+
+			return tasks;
 		} catch (err) {
 			console.error(err);
 			return [];

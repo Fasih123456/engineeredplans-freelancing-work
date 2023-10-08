@@ -46,7 +46,7 @@ function Header() {
 							</Nav.Link>
 							{windowWidth <= 768 && (
 								<>
-									<Nav.Link href="/login" onClick={logout()}>
+									<Nav.Link href="/login" onClick={logout}>
 										Logout
 									</Nav.Link>
 									<Nav.Link href="/projects">

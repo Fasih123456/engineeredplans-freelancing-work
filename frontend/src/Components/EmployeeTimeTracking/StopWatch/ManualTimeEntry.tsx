@@ -49,7 +49,6 @@ function ManualTimeEntry(props: ManualTimeEntryProps) {
 	const [startTime, setStartTime] = useState();
 	const [endTime, setEndTime] = useState();
 	const [selectedDate, setSelectedDate] = useState("");
-	const [startDate, setStartDate] = useState("");
 
 	//Time is in 24 hour format
 	const handleStartTimeChange = (time: any | null) => {

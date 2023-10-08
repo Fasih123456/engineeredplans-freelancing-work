@@ -3,9 +3,9 @@ const crypto = require("crypto");
 const { pool } = require("../Util/db");
 
 permissionDataType = {
-	permissionId: sql.VarChar,
-	employeeId: sql.VarChar,
-	permissionType: sql.VarChar,
+	permissionId: sql.VarChar(50),
+	employeeId: sql.VarChar(50),
+	permissionType: sql.VarChar(40),
 };
 
 class Permission {
@@ -44,9 +44,9 @@ class Permission {
 	}
 
 	static async findById(permissionId) {
-		console.log(permissionId);
-		console.log(permissionDataType);
-		console.log(permissionDataType.permissionId);
+		//console.log(permissionId);
+		//console.log(permissionDataType);
+		//console.log(permissionDataType.permissionId);
 		try {
 			const request = pool.request();
 			request.input(
@@ -59,7 +59,7 @@ class Permission {
                         WHERE permissionId = @permissionId
                         `);
 
-			console.log(result);
+			//console.log(result);
 			if (result.recordset.length > 0) {
 				const { employeeId, permissionType } = result.recordset[0];
 				const permission = new Permission(
@@ -90,7 +90,7 @@ class Permission {
         WHERE employeeId = @employeeId
       `);
 
-			console.log(result);
+			//console.log(result);
 
 			return result.recordset.map(
 				({ permissionId, permissionType }) =>

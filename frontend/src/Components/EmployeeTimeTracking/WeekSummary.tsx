@@ -1,6 +1,8 @@
 //Component imports
 import { Col, Container, Row } from "react-bootstrap";
 
+import { formatTime } from "../../GlobalFunctions";
+
 interface WeekSummaryProps {
 	Date: string;
 	TotalTime: number;
@@ -9,17 +11,7 @@ interface WeekSummaryProps {
 function WeekSummary(props: WeekSummaryProps) {
 	//console.log(props);
 
-	const newTime = secondsToHMS(props.TotalTime);
-
-	function secondsToHMS(seconds: number) {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const remainingSeconds = seconds % 60;
-
-		const pad = (num: number) => (num < 10 ? `0${num}` : num);
-
-		return `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`;
-	}
+	const newTime = formatTime(props.TotalTime);
 
 	// TypeScript types
 	type ISODateString = string;
@@ -43,6 +35,7 @@ function WeekSummary(props: WeekSummaryProps) {
 		return endOfWeek;
 	}
 
+	/*Converts the date from HH:MM:SSZZZ to MMM DD - MMM DD*/
 	function dateToWeekLabel(inputDate: ISODateString): string {
 		const currentDate = new Date();
 		const inputDateObj = new Date(inputDate);

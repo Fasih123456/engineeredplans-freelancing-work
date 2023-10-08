@@ -1,20 +1,18 @@
 //React imports
-import { serverRequest } from "../GlobalFunctions";
+import { serverRequest } from "../../GlobalFunctions";
 import { useState, useEffect } from "react";
 //Library imports
 import { Table } from "react-bootstrap";
 
-interface Project {
-	projectId: number;
-	project_name: string;
-	employeeIds: string;
-}
+//Interface
+import { ProjectInterface } from "../../GlobalInterface";
 
 //TODO: Make the Option section have icons eye and trash can
 //TODO: Add option to add new project
 
+//This is the main component which renders all the relevant projects in a table
 function ProjectDisplay() {
-	const [projects, setProjects] = useState<Project[]>([]);
+	const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
 	useEffect(() => {
 		serverRequest({
@@ -25,8 +23,8 @@ function ProjectDisplay() {
 			},
 		})
 			.then((response) => {
-				console.log(response);
-				const projects: Project[] = response.data;
+				//console.log(response);
+				const projects: ProjectInterface[] = response.data;
 				setProjects(projects);
 			})
 			.catch((error) => {

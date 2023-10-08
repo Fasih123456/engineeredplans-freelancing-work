@@ -1,8 +1,5 @@
 //Component Imports
-import { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
-import { serverRequest } from "../../GlobalFunctions";
-import { useState } from "react";
 
 interface AllInstanceSummaryProps {
 	taskId: string;
@@ -12,7 +9,7 @@ interface AllInstanceSummaryProps {
 	time: number;
 }
 
-function EachInstace2(props: { task: AllInstanceSummaryProps }) {
+function EachInstance(props: { task: AllInstanceSummaryProps }) {
 	return (
 		<>
 			<Row className="summary-task-container-body">
@@ -35,21 +32,19 @@ function EachInstace2(props: { task: AllInstanceSummaryProps }) {
 	);
 }
 
-//This Component renders the tasks which have been grouped together by the same date and projectId.
-function EachInstance(props: { task: AllInstanceSummaryProps[] }) {
-	const [taskNames, setTaskNames] = useState<string[]>([]);
-
-	console.log(props.task);
+//This Component takes an array of tasks grouped by projectId and feeds them to EachInstance to render each instance
+function RenderEachInstance(props: { task: AllInstanceSummaryProps[] }) {
+	//console.log(props.task);
 	const eachInstance: JSX.Element[] = [];
 
 	for (let i = 0; i < props.task.length; i++) {
 		const task = props.task[i];
-		console.log(task);
+		//console.log(task);
 
-		eachInstance.push(<EachInstace2 task={task} />);
+		eachInstance.push(<EachInstance task={task} />);
 	}
 
 	return <>{eachInstance}</>;
 }
 
-export default EachInstance;
+export default RenderEachInstance;

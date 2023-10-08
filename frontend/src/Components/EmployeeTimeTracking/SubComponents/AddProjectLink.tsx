@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import { serverRequest } from "../../../GlobalFunctions";
 import { Col, Dropdown } from "react-bootstrap";
 
+//Global Interfaces
+import { ProjectInterface } from "../../../GlobalInterface";
+
 interface AddProjectLinkProps {
 	plevel: string;
 	width: number;
-	setProjects: React.Dispatch<React.SetStateAction<Projects>>;
 	isActive: boolean;
 	setSelectedProject: React.Dispatch<React.SetStateAction<string>>;
 	setSelectProjectId: React.Dispatch<React.SetStateAction<number>>;
 	selectedProject: string;
-	projects: Object;
 }
 
 function AddProjectLink(props: AddProjectLinkProps) {
 	const privilege = props.plevel;
+	const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
 	useEffect(() => {
 		//Admin privilege gets to view all projects
@@ -23,8 +25,8 @@ function AddProjectLink(props: AddProjectLinkProps) {
 				method: "get",
 				url: `projects`,
 			}).then((response) => {
-				props.setProjects(response.data);
-				console.log(response);
+				setProjects(response.data);
+				//console.log(response);
 				//console.log(projects);
 			});
 		} else {
@@ -33,8 +35,8 @@ function AddProjectLink(props: AddProjectLinkProps) {
 				method: "get",
 				url: `projects/${localStorage.getItem("employeeId")}`,
 			}).then((response) => {
-				props.setProjects(response.data);
-				console.log(response);
+				setProjects(response.data);
+				//console.log(response);
 			});
 		}
 	}, []);
@@ -42,18 +44,15 @@ function AddProjectLink(props: AddProjectLinkProps) {
 	return (
 		<Col xs={props.width} className="time-slots-col add-project-link-div">
 			<Dropdown>
-				{props.isActive ? (
-					<Dropdown.Toggle id="project-dropdown" disabled>
-						{props.selectedProject || "Your Projects"}
-					</Dropdown.Toggle>
-				) : (
-					<Dropdown.Toggle id="project-dropdown">
-						{props.selectedProject || "Your Projects"}
-					</Dropdown.Toggle>
-				)}
+				<Dropdown.Toggle
+					id="project-dropdown"
+					disabled={props.isActive}
+				>
+					{props.selectedProject || "Your Projects"}
+				</Dropdown.Toggle>
 
 				<Dropdown.Menu>
-					{props.projects.map((project) => (
+					{projects.map((project) => (
 						<Dropdown.Item
 							key={project.projectId}
 							onClick={() => {

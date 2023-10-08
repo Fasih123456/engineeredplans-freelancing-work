@@ -6,11 +6,12 @@ import { useState } from "react";
 import { Row, Col, Container, Button } from "react-bootstrap";
 
 //Component imports
-import EmployeeDisplay from "../../Components/EmployeeDisplay";
+import EmployeeDisplay from "../../Components/EmployeeManagment/EmployeeDisplay";
 import Header from "../../Components/Header";
 import Menu from "../../Components/Menu";
 import CreateEmployeeModal from "../../Components/EmployeeManagment/CreateEmployeeModal";
 
+//This component is the main page for the Employee Management page, it renders the employee display component. This page is for admin view and displays all employees
 function EmployeeManagement() {
 	const [showCreateEmployeeModal, setShowCreateEmployeeModal] =
 		useState(false);

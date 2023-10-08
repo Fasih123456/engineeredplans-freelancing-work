@@ -2,9 +2,9 @@ const sql = require("mssql");
 const crypto = require("crypto");
 const { pool } = require("../Util/db");
 
-dataTypes = {
-	projectId: sql.VarChar,
-	project_name: sql.VarChar,
+projectDataTypes = {
+	projectId: sql.VarChar(8),
+	project_name: sql.VarChar(255),
 	employeeIds: sql.VarChar,
 };
 
@@ -16,21 +16,24 @@ class Project {
 	}
 	addEmployee(employee) {
 		this.employeeIds.push(employee.employeeId);
-		this.employees.push(employee);
 	}
 
 	async save() {
 		try {
 			const request = pool.request();
-			request.input("projectId", dataTypes.projectId, this.projectId);
+			request.input(
+				"projectId",
+				projectDataTypes.projectId,
+				this.projectId
+			);
 			request.input(
 				"project_name",
-				dataTypes.project_name,
+				projectDataTypes.project_name,
 				this.project_name
 			);
 			request.input(
 				"employeeIds",
-				dataTypes.employeeIds,
+				projectDataTypes.employeeIds,
 				JSON.stringify(this.employeeIds)
 			);
 			await request.query(`
@@ -44,11 +47,11 @@ class Project {
 
 	static async findById(projectId) {
 		try {
-			console.log(projectId);
 			const request = pool.request();
-			request.input("projectId", dataTypes.projectId, projectId);
+			//console.log(projectId);
+			request.input("projectId", projectDataTypes.projectId, projectId);
 			const result = await request.query(`
-      SELECT * FROM project
+      SELECT project_name, employeeIds FROM project
       WHERE projectId = @projectId
     `);
 			if (result.recordset.length > 0) {
@@ -73,7 +76,7 @@ class Project {
 		try {
 			const request = pool.request();
 			const result = await request.query(`
-      SELECT projectId, project_name, employeeIds FROM project
+      SELECT * FROM project
     `);
 			return result.recordset.map(
 				({ projectId, project_name, employeeIds }) =>
@@ -92,7 +95,11 @@ class Project {
 	static async findByEmployeeId(employeeId) {
 		try {
 			const request = pool.request();
-			request.input("employeeId", dataTypes.employeeId, employeeId);
+			request.input(
+				"employeeId",
+				projectDataTypes.employeeIds,
+				employeeId
+			);
 			const result = await request.query(`
 				SELECT * FROM project
 				WHERE employeeIds LIKE '%${employeeId}%'
@@ -105,7 +112,7 @@ class Project {
 						JSON.parse(employeeIds)
 					)
 			);
-		} catch {
+		} catch (err) {
 			console.error(err);
 			return [];
 		}
@@ -114,15 +121,19 @@ class Project {
 	async update() {
 		try {
 			const request = pool.request();
-			request.input("projectId", dataTypes.projectId, this.projectId);
+			request.input(
+				"projectId",
+				projectDataTypes.projectId,
+				this.projectId
+			);
 			request.input(
 				"project_name",
-				dataTypes.project_name,
+				projectDataTypes.project_name,
 				this.project_name
 			);
 			request.input(
 				"employeeIds",
-				dataTypes.employeeIds,
+				projectDataTypes.employeeIds,
 				JSON.stringify(this.employeeIds)
 			);
 			await request.query(`

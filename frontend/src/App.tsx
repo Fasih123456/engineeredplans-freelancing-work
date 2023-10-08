@@ -66,9 +66,7 @@ function App() {
 							/>
 							<Route path="/projects" element={<Projects />} />
 						</>
-					) : (
-						<Route path="*" element={<Navigate to="/login" />} />
-					)}
+					) : null}
 					<Route path="/login" element={<Login />} />
 				</Routes>
 			</BrowserRouter>

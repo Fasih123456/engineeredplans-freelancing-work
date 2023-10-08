@@ -5,18 +5,14 @@ import { serverRequest } from "../../GlobalFunctions";
 //Component Imports
 import StopWatch from "./StopWatch/StopWatch";
 import ManualTimeEntry from "./StopWatch/ManualTimeEntry";
+import AddProjectLink from "./SubComponents/AddProjectLink";
 
 //Library imports
-import { Col, Container, Row, Dropdown, Toast } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
-import AddProjectLink from "./SubComponents/AddProjectLink";
-//This function displays the text area for the user to enter the task they are working on, extracted so we can have dynamic width
 
-interface Projects {
-	projectId: number;
-	projectName: string;
-}
+//This function displays the text area for the user to enter the task they are working on, extracted so we can have dynamic width
 
 interface AddTimeSlotsProps {
 	plevel: string;
@@ -27,9 +23,8 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 	const [isActive, setIsActive] = useState(false);
 	const [isPaused, setIsPaused] = useState(true);
 
-	//Infomration States
+	//Information States
 	const [task, setTask] = useState("");
-	const [projects, setProjects] = useState<Projects>([]);
 	const [selectedProject, setSelectedProject] = useState("");
 	const [selectProjectId, setSelectProjectId] = useState(0);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -40,8 +35,9 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 	const [time, setTime] = useState(0);
 	const [date, setDate] = useState("");
 
-	console.log(time, date);
+	//console.log(time, date);
 
+	//This function deals with just the input field where the task name is entered
 	function upperAddTimeSlots(width: number) {
 		return (
 			<Col xs={width} className="time-slots-col">
@@ -111,12 +107,11 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 		return 1;
 	}
 
-	function handleStop() {
-		const project = selectedProject;
-		const taskName = task;
+	function saveTask() {
 		const timeSpent = time;
 
-		console.log(project, taskName, timeSpent, date);
+		const today = new Date();
+		const formattedDate = today.toISOString().slice(0, 10);
 
 		serverRequest({
 			method: "post",
@@ -125,7 +120,7 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 				employeeId: localStorage.getItem("employeeId"),
 				projectId: selectProjectId,
 				time: Math.floor(timeSpent / 1000),
-				date: date,
+				date: date == "" ? formattedDate : date,
 			},
 		}).then((response) => {
 			if (response.status == 201) {
@@ -136,36 +131,20 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 		});
 	}
 
-	function handleManualTimeEntry() {
-		const project = selectedProject;
-		const timeSpent = time;
-		console.log(project, timeSpent, date);
+	//This function will store all the task information on the database
+	function handleStop() {
+		saveTask();
+	}
 
+	//This function will handle the manual time entry including adding the time to the database
+	function handleManualTimeEntry() {
 		let status = handlePlay(); //making sure all fields are selected
 
 		if (status == -1) {
 			return;
 		}
 
-		console.log(status);
-		serverRequest({
-			method: "post",
-			url: `tasks`,
-			data: {
-				employeeId: localStorage.getItem("employeeId"),
-				projectId: selectProjectId,
-				time: timeSpent,
-				date: date, // Fixed syntax
-			},
-		}).then((response) => {
-			if (response.status === 201) {
-				// Fixed syntax
-				toast.success("Time Entry added!");
-			} else if (response.status === 500) {
-				// Fixed syntax
-				toast.error("Server Error has occurred, contact admin");
-			}
-		});
+		saveTask();
 	}
 	//This function handles the display of the icons
 	function handleIconDisplay() {
@@ -219,6 +198,7 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 		);
 	}
 
+	//This useEffect is used to get the current window width based on which the component will be rendered differently
 	useEffect(() => {
 		function handleResize() {
 			setWindowWidth(window.innerWidth);
@@ -317,23 +297,19 @@ function AddTimeSlots(props: AddTimeSlotsProps) {
 					<AddProjectLink
 						width={3}
 						plevel={props.plevel}
-						setProjects={setProjects}
 						isActive={isActive}
 						setSelectProjectId={setSelectProjectId}
 						setSelectedProject={setSelectedProject}
 						selectedProject={selectedProject}
-						projects={projects}
 					/>
 				) : (
 					<AddProjectLink
 						width={3}
 						plevel={props.plevel}
-						setProjects={setProjects}
 						isActive={isActive}
 						setSelectProjectId={setSelectProjectId}
 						setSelectedProject={setSelectedProject}
 						selectedProject={selectedProject}
-						projects={projects}
 					/>
 				)}
 

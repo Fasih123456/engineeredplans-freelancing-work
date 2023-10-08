@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { serverRequest } from "../GlobalFunctions";
 
+//Interfaces
+import { PrivilegeInterface } from "../GlobalInterface";
+
 function Menu() {
-	const [privilege, setPrivilege] = useState("");
+	const [privilege, setPrivilege] = useState<PrivilegeInterface>();
 	const userId = localStorage.getItem("employeeId");
 
 	useEffect(() => {
@@ -12,14 +15,18 @@ function Menu() {
 			method: "get",
 			url: `permission/${userId}`,
 		}).then((response) => {
-			setPrivilege(response.data[0].permissionType);
+			setPrivilege({
+				employeeId: response.data[0].employeeId,
+				permissionId: response.data[0].permissionId,
+				permissionType: response.data[0].permissionType,
+			});
 		});
 	}, []);
 
 	return (
 		<Container className="menu-left">
 			<div className="each-menu-section">
-				<h2 className="menu-section-heading">Your Pages</h2>
+				<h2 className="menu-section-heading">Menu</h2>
 				<Row className="each-menu-row">
 					<Col>
 						<i className="fa-solid fa-clock fa-icon"></i>
@@ -38,7 +45,7 @@ function Menu() {
 				</Row>
 			</div>
 
-			{privilege == "admin" && (
+			{privilege?.permissionType == "admin" && (
 				<div className="each-menu-section">
 					<h2 className="menu-section-heading">Admin Panel</h2>
 					<Row className="each-menu-row">

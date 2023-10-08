@@ -3,59 +3,43 @@ const router = express.Router();
 const Task = require("../Models/Task");
 const authenticate = require("../MiddleWare/JWTAuth");
 
-// GET /tasks
+// Find all tasks for all employees
 router.get("/", authenticate, async (req, res) => {
 	try {
 		const tasks = await Task.findAll();
-		res.json(tasks);
+		res.status(200).json(tasks);
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(500);
 	}
 });
 
-// GET /tasks/:taskId
+// finds all tasks for a specific employee using employeeId
 router.get("/:employeeId", authenticate, async (req, res) => {
 	try {
 		const task = await Task.findByEmployeeId(req.params.employeeId);
-		console.log("task", task);
+		//console.log("task", task);
 		if (task) {
 			res.status(200).json(task);
 		} else {
-			res.sendStatus(404);
+			res.status(204).json({
+				message: "No task found for this employee",
+			});
 		}
 	} catch (err) {
 		console.error(err);
-		res.sendStatus(500);
+		res.status(500);
 	}
 });
 
-router.get("/:employeeId/:projectId", authenticate, async (req, res) => {
-	try {
-		const task = await Task.findByTaskId(
-			req.params.employeeId,
-			req.params.projectId
-		);
-		console.log("task", task);
-		if (task) {
-			res.status(200).json(task);
-		} else {
-			res.sendStatus(404);
-		}
-	} catch (err) {
-		console.error(err);
-		res.sendStatus(500);
-	}
-});
-
-// POST /tasks
+//Posts a new task
 router.post("/", authenticate, async (req, res) => {
 	try {
 		console.log(req.body);
 		const { employeeId, projectId, date, time } = req.body;
 		const task = new Task(null, employeeId, projectId, date, time);
 		await task.save();
-		res.status(201).json(task); // Combined response
+		res.status(200).json(task); // Combined response
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(500);
@@ -70,9 +54,11 @@ router.put("/:taskId", authenticate, async (req, res) => {
 			task.employeeId = req.body.employeeId;
 			task.projectId = req.body.projectId;
 			await task.update();
-			res.json(task);
+			res.status(200).json(task);
 		} else {
-			res.sendStatus(404);
+			res.sendStatus(204).json({
+				message: "No task found for this employee",
+			});
 		}
 	} catch (err) {
 		console.error(err);
@@ -86,9 +72,9 @@ router.delete("/:taskId", authenticate, async (req, res) => {
 		const task = await Task.findById(req.params.taskId);
 		if (task) {
 			await task.delete();
-			res.sendStatus(204);
+			res.sendStatus(204).json({ message: "Task deleted" });
 		} else {
-			res.sendStatus(404);
+			res.sendStatus(204).json({ message: "No task with this Id found" });
 		}
 	} catch (err) {
 		console.error(err);

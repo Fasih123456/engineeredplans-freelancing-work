@@ -2,11 +2,11 @@
 import { Table, Form, Button, Modal } from "react-bootstrap";
 //React imports
 import { useState, useEffect } from "react";
-import { serverRequest } from "../GlobalFunctions";
+import { serverRequest } from "../../GlobalFunctions";
 import { toast } from "react-toastify";
 
 //Component imports
-
+//TODO: editing employee information succesfully/unsuccesfully should be given a toast
 interface EmployeeModalProps {
 	show: boolean;
 	handleClose: () => void;

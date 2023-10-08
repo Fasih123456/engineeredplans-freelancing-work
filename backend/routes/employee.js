@@ -11,7 +11,7 @@ router.get("/", authenticate, async (req, res) => {
 
 // GET /employees/:employeeId
 router.get("/:employeeId", authenticate, async (req, res) => {
-	console.log(req.params.employeeId);
+	//console.log(req.params.employeeId);
 	const employee = await Employee.findById(req.params.employeeId);
 	if (employee) {
 		res.status(200).json(employee);
@@ -22,10 +22,10 @@ router.get("/:employeeId", authenticate, async (req, res) => {
 
 // POST /employees
 router.post("/", authenticate, async (req, res) => {
-	console.log(req.body);
+	//console.log(req.body);
 	const { name, password } = req.body;
-	const employee = new Employee(name, password);
-	console.log(employee);
+	const employee = new Employee(null, name, password);
+	//console.log(employee);
 	await employee.save();
 	res.status(201).json(employee);
 });
@@ -34,15 +34,15 @@ router.post("/", authenticate, async (req, res) => {
 router.put("/:employeeId", authenticate, async (req, res) => {
 	try {
 		const employee = new Employee(
+			req.body.employeeId,
 			req.body.username,
-			null,
-			req.body.employeeId
+			null
 		);
 		await employee.update(req.body.employeeId, req.body.username, null);
-		res.sendStatus(204);
+		res.status(201);
 	} catch (err) {
 		console.error(err);
-		res.sendStatus(404);
+		res.status(404);
 	}
 });
 
@@ -52,9 +52,9 @@ router.delete("/:employeeId", authenticate, async (req, res) => {
 	console.log(employee);
 	if (employee) {
 		await Employee.delete(employee.employeeId);
-		res.sendStatus(204);
+		res.status(204).json({ message: "Employee deleted successfully" });
 	} else {
-		res.sendStatus(404);
+		res.status(404);
 	}
 });
 

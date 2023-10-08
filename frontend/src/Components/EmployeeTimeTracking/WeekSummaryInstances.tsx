@@ -1,20 +1,20 @@
 //Component imports
-import EachInstance from "./EachInstance";
+import RenderEachInstance from "./EachInstance";
+
 //React imports
 import { useState } from "react";
 
 //Library imports
 import { Col, Container, Row } from "react-bootstrap";
 
-interface AllInstanceSummaryProps {
-	taskId: string;
-	employeeId: string;
-	projectId: string;
-	date: string;
-	time: number;
-}
+//Global functions
+import { formatTime } from "../../GlobalFunctions";
 
-function InstanceCard(props: { task: AllInstanceSummaryProps[] }) {
+//Interface
+import { TaskInterface } from "../../GlobalInterface";
+
+//This component will render each instance of a task including sub instances
+function InstanceCard(props: { task: TaskInterface[] }) {
 	const [showEachInstance, setShowEachInstance] = useState(false);
 
 	//console.log(props);
@@ -22,17 +22,6 @@ function InstanceCard(props: { task: AllInstanceSummaryProps[] }) {
 	const handleCurrentInstancesClick = () => {
 		setShowEachInstance(!showEachInstance);
 	};
-
-	function formatTime(timeInSeconds: number) {
-		const hours = Math.floor(timeInSeconds / 3600);
-		const minutes = Math.floor((timeInSeconds % 3600) / 60);
-		const seconds = timeInSeconds % 60;
-
-		//Padstart adds two leading zeros as padding, their will always be two digits for minutes and seconds
-		return `${hours.toString().padStart(2, "0")}:${minutes
-			.toString()
-			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-	}
 
 	return (
 		<>
@@ -54,31 +43,19 @@ function InstanceCard(props: { task: AllInstanceSummaryProps[] }) {
 					</p>
 				</Col>
 			</Row>
-			{showEachInstance && <EachInstance task={props.task} />}
+			{showEachInstance && <RenderEachInstance task={props.task} />}
 		</>
 	);
 }
 
 interface WeekSummaryInstancesProps {
-	tasks: AllInstanceSummaryProps[]; // Assuming you have the AllInstanceSummaryProps type defined
+	tasks: TaskInterface[]; // Assuming you have the AllInstanceSummaryProps type defined
 }
 
-interface Task {
-	taskId: string;
-	employeeId: string;
-	projectId: string;
-	date: string;
-	time: number;
-}
-
-interface Props {
-	tasks: Task[];
-}
-
-//This component renders each instance of tasks for the week
+//We group all tasks in a week by date and then render them in this component
 function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 	const { tasks } = props;
-	const filteredTasks: Record<string, Task[]> = {};
+	const filteredTasks: Record<string, TaskInterface[]> = {};
 
 	for (const item of props.tasks) {
 		const projectId = item.projectId;
@@ -96,7 +73,7 @@ function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 	//console.log(result);
 
 	// Group tasks by date
-	const tasksByDate: Record<string, AllInstanceSummaryProps[]> = {};
+	const tasksByDate: Record<string, TaskInterface[]> = {};
 
 	tasks.forEach((task) => {
 		const date = new Date(task.date).toLocaleDateString("en-US", {
@@ -113,15 +90,12 @@ function WeekSummaryInstances(props: WeekSummaryInstancesProps) {
 	});
 
 	// Function to calculate the total time spent for a set of tasks
-	const calculateTotalTime = (
-		taskList: AllInstanceSummaryProps[]
-	): number => {
+	const calculateTotalTime = (taskList: TaskInterface[]): number => {
 		return taskList.reduce((total, task) => total + (task.time || 0), 0);
 	};
 
 	//console.log(tasksByDate);
 
-	let taskList: AllInstanceSummaryProps[] = [];
 	let instanceCards: JSX.Element[] = [];
 
 	for (let i = 0; i < result.length; i++) {

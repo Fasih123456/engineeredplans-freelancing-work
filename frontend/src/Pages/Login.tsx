@@ -1,19 +1,17 @@
 //React imports
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 //CSS imports
 import loginImg from "../assets/images/login-image.webp";
 
 //Library imports
 import axios from "axios";
 
-//TODO: make the login suggestions pop up correctly
-//TODO: Fix the bug where the login page does not redirect to the home page after logging in
 function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-	const loggedIn = localStorage.getItem("token");
 	const navigate = useNavigate();
 
 	const handleLogin = () => {
@@ -26,8 +24,7 @@ function Login() {
 				},
 			})
 			.then(({ data, status }) => {
-				if (status === 200) {
-					console.log(data);
+				if (status == 200) {
 					const { token, employeeId } = data;
 
 					localStorage.removeItem("token");
@@ -37,13 +34,13 @@ function Login() {
 					localStorage.setItem("token", token);
 					localStorage.setItem("employeeId", employeeId);
 					localStorage.setItem("username", username);
+
 					navigate("/");
-				} else {
+				} else if (status == 204) {
 					setErrorMessage("Invalid username or password");
+				} else {
+					setErrorMessage("An unknown error has occurred");
 				}
-			})
-			.catch((error) => {
-				console.error(error);
 			});
 	};
 

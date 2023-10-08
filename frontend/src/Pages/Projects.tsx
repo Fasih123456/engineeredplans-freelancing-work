@@ -4,8 +4,9 @@ import { Row, Col, Container } from "react-bootstrap";
 //Component Imports
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
-import ProjectDisplay from "../Components/ProjectDisplay";
+import ProjectDisplay from "../Components/Projects/ProjectDisplay";
 
+//This component is the main page for the Projects page, it renders the project display component. This page is for user view and only displays user specific projects
 function Projects() {
 	return (
 		<>

@@ -11,6 +11,7 @@ interface EmployeeTimeTrackingProps {
 	plevel: string;
 }
 
+//This component is the main page for the Employee Time Tracking page, it renders both the time adding component and the task displaying component
 function EmployeeTimeTracking(props: EmployeeTimeTrackingProps) {
 	return (
 		<>

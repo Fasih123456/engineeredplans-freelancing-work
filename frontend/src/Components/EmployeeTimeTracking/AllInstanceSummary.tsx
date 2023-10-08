@@ -6,16 +6,11 @@ import { serverRequest } from "../../GlobalFunctions";
 //React imports
 import { useEffect, useState } from "react";
 
-interface AllInstanceSummaryProps {
-	taskId: string;
-	employeeId: string;
-	projectId: string;
-	date: string;
-	time: number;
-}
+//Interface
+import { TaskInterface } from "../../GlobalInterface";
 
 function AllInstanceSummary() {
-	const [allTasks, setAllTasks] = useState<AllInstanceSummaryProps[]>([]);
+	const [allTasks, setAllTasks] = useState<TaskInterface[]>([]);
 
 	useEffect(() => {
 		const employeeId = localStorage.getItem("employeeId");
@@ -27,7 +22,7 @@ function AllInstanceSummary() {
 			.then((response) => {
 				console.log(response.data);
 
-				const tasks = response.data.map((task) => ({
+				const tasks = response.data.map((task: TaskInterface) => ({
 					taskId: task.taskId,
 					employeeId: task.employeeId,
 					projectId: task.projectId,
@@ -46,7 +41,7 @@ function AllInstanceSummary() {
 
 	// Function to group tasks by week
 	const groupTasksByWeek = () => {
-		const groupedTasks: Record<string, AllInstanceSummaryProps[]> = {};
+		const groupedTasks: Record<string, TaskInterface[]> = {};
 
 		allTasks.forEach((task) => {
 			const taskDate = new Date(task.date);

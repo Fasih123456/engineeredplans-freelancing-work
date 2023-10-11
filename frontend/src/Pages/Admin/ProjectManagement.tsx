@@ -10,9 +10,9 @@ function ProjectManagement() {
 	return (
 		<>
 			<Header />
-			<Container fluid>
+			<Container className="outer-wrapper" fluid>
 				<Row>
-					<Col xs={2}>
+					<Col xs={2} className="menu-col">
 						<Menu />
 					</Col>
 					<Col xs={10}>

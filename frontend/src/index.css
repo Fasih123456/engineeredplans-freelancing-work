@@ -101,8 +101,8 @@ body {
 }
 
 #root {
-	width: 100% !important;
-	height: 100% !important;
+	min-width: 100vw !important;
+	min-height: 100vh !important;
 }
 
 #header {
@@ -236,10 +236,8 @@ a:hover {
 }
 
 .wrapper {
-	position: fixed;
-	left: 16.67%;
-	top: 140px;
-	overflow-y: auto;
+	position: relative;
+	margin-top: 100px;
 }
 
 .summary-task-name {
@@ -558,10 +556,9 @@ td {
 
 	.wrapper {
 		max-width: 800px;
-		margin-left: 20px;
-		left: 20%;
+		margin-left: auto;
+		margin-right: auto;
 	}
-
 	.add-time-start-section {
 		margin: 0px;
 		padding: 0px;
@@ -580,8 +577,30 @@ td {
 }
 
 @media (max-width: 768px) {
+	#root {
+		overflow-y: hidden;
+	}
+
+	.menu-col {
+		width: 0px;
+	}
+
+	#header {
+		width: 100vw;
+	}
+
+	.outer-wrapper {
+		margin-left: 15%;
+	}
+
 	.add-time-icons {
 		font-size: 20px;
+	}
+
+	.wrapper {
+		position: relative;
+
+		left: -6vh;
 	}
 
 	#header a {
@@ -616,12 +635,10 @@ td {
 	input {
 		width: 100%;
 	}
-
 	.wrapper {
-		max-width: 100vw;
-		margin: 0px;
-		left: 0%;
-		padding: 0px;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.date-picker-col {
@@ -653,6 +670,7 @@ td {
 
 	.menu-left {
 		display: none;
+		width: 0%;
 	}
 
 	.add-time-slot-heading {

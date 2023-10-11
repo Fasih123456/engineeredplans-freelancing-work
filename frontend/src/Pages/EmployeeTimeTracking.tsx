@@ -16,12 +16,12 @@ function EmployeeTimeTracking(props: EmployeeTimeTrackingProps) {
 	return (
 		<>
 			<Header />
-			<Container fluid>
+			<Container className="outer-wrapper" fluid>
 				<Row>
-					<Col xs={2}>
+					<Col sm={0} md={2} className="menu-col">
 						<Menu />
 					</Col>
-					<Col xs={10}>
+					<Col sm={12} md={10}>
 						<Container className="wrapper">
 							<AddTimeSlots plevel={props.plevel} />
 							<AllInstanceSummary />

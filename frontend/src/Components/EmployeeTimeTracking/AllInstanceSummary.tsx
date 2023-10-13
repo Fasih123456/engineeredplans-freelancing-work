@@ -57,11 +57,10 @@ function AllInstanceSummary() {
 		return groupedTasks;
 	};
 
-	// Function to get the start date of the week for a given date
 	const getStartOfWeek = (date: Date) => {
 		const year = date.getFullYear();
 		const month = date.getMonth();
-		const day = date.getDate() - date.getDay(); // Start of the week (Sunday as the first day)
+		const day = date.getDate() - date.getDay() + 1; // Start of the week (Sunday as the first day)
 		const weekStartDate = new Date(year, month, day);
 
 		return weekStartDate.toISOString();

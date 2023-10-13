@@ -38,6 +38,7 @@ router.post("/", authenticate, async (req, res) => {
 		console.log(req.body);
 		const { employeeId, projectId, date, time } = req.body;
 		const task = new Task(null, employeeId, projectId, date, time);
+		console.log(task);
 		await task.save();
 		res.status(200).json(task); // Combined response
 	} catch (err) {

@@ -40,8 +40,10 @@ class Project {
         INSERT INTO project (projectId, project_name, employeeIds)
         VALUES (@projectId, @project_name, @employeeIds)
       `);
+			return 1;
 		} catch (err) {
 			console.error(err);
+			return -1;
 		}
 	}
 

@@ -17,3 +17,8 @@ export interface TaskInterface {
 	date: string;
 	time: number;
 }
+
+export interface EmployeeInterface {
+	employeeId: string;
+	name: string;
+}

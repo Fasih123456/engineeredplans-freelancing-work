@@ -60,6 +60,7 @@ function EmployeeManagement() {
 				</Row>
 			</Container>
 
+			{/* This modal handles creating new employees and not editing employees */}
 			<CreateEmployeeModal
 				show={showCreateEmployeeModal}
 				onHide={() => setShowCreateEmployeeModal(false)}

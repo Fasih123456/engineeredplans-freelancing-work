@@ -48,11 +48,17 @@ router.get("/:employeeId", authenticate, async (req, res) => {
 //Post a new project with the project name and assigned employees
 router.post("/", authenticate, async (req, res) => {
 	try {
-		const { project_name, employeeIds } = req.body;
+		console.log(req.body);
+		const project_name = req.body.name;
+		const employeeIds = req.body.employeeIds;
 		const project = new Project(null, project_name, employeeIds);
-
-		await project.save();
-		res.status(200).json(project);
+		const statuscode = await project.save();
+		console.log(statuscode);
+		if (statuscode == 1) {
+			res.status(200).json(project);
+		} else {
+			res.status(400).json({ message: "an error has occured" });
+		}
 	} catch (err) {
 		console.error(err);
 		res.status(500);

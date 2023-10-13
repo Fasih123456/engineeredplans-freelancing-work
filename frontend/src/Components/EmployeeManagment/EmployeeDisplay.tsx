@@ -6,6 +6,8 @@ import { serverRequest } from "../../GlobalFunctions";
 import { toast } from "react-toastify";
 
 //Component imports
+import CreateEmployeeModal from "./CreateEmployeeModal";
+
 //TODO: editing employee information succesfully/unsuccesfully should be given a toast
 interface EmployeeModalProps {
 	show: boolean;
@@ -19,7 +21,7 @@ interface EmployeeModalProps {
 	setNewUserName: (name: string) => void;
 }
 
-function EmployeeModal({
+function ViewEmployeeModal({
 	show,
 	handleClose,
 	handleEditSaves,
@@ -111,7 +113,7 @@ function EmployeeDisplay() {
 		})
 			.then((response) => {
 				setEmployees(
-					response.data.map((employee) => ({
+					response.data.map((employee: Employee) => ({
 						employeeId: employee.employeeId,
 						name: employee.name,
 					}))
@@ -181,7 +183,7 @@ function EmployeeDisplay() {
 					))}
 				</tbody>
 			</Table>
-			<EmployeeModal
+			<ViewEmployeeModal
 				show={showEditModal}
 				handleClose={handleClose}
 				handleEditSaves={handleEditSaves}

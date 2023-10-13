@@ -16,6 +16,7 @@ interface CreateEmployeeModalProps {
 }
 
 //TODO: Add option to set projects in this section
+/* This modal handles creating new employees and not editing employees */
 function CreateEmployeeModal({
 	show,
 	onHide,
